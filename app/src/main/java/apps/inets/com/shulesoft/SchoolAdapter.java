@@ -1,4 +1,4 @@
-package com.example.android.shulesoft;
+package apps.inets.com.shulesoft;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -74,7 +74,7 @@ public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
         return mFilter;
     }
 
-    private class CustomFilter extends Filter{
+    private class CustomFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results=new FilterResults();

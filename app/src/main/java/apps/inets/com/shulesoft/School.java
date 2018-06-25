@@ -1,4 +1,4 @@
-package com.example.android.shulesoft;
+package apps.inets.com.shulesoft;
 
 /**
  * Created by admin on 20 Jun 2018.

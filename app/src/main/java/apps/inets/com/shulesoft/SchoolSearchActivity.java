@@ -1,4 +1,4 @@
-package com.example.android.shulesoft;
+package apps.inets.com.shulesoft;
 
 
 import android.content.Intent;
