@@ -14,6 +14,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import apps.inets.com.shulesoft.R;
+import apps.inets.com.shulesoft.School;
+
 
 /**
  * Created by admin on 19 Jun 2018.

@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">ShuleSoft</string>
+    <string name="about_app">ShuleSoft is a cloud based management system for schools that aims to bring efficiency in
+        management and interaction between students, teachers &amp; parents. \n\n\n www.shulesoft.com </string>
+    <string name="feature1">This is fun</string>
+    <string name="feature2">This is awesome</string>
+    <string name="feature3">This is wonderful</string>
+    <string name="feature4">This is marvelous</string>
+    <string name="next">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

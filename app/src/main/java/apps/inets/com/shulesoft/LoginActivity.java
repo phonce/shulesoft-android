@@ -31,6 +31,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import apps.inets.com.shulesoft.R;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
