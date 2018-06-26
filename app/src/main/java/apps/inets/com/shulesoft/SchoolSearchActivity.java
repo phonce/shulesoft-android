@@ -108,22 +108,10 @@ public class SchoolSearchActivity extends AppCompatActivity {
      * Makes a network request to return the list of schools
      */
     public void makeHttpRequest(){
-        String getSchoolsUrl = "http://158.69.112.216:8081/api";
-
-        JSONObject params = new JSONObject();
-
-        //String shulesoftChecksum = md5.
-        try {
-            params= params.put("tag", "getSchools");
-            params = params.put("checksum","md5('shulesoft')");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
 
 
-
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,params,
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,
                  new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
