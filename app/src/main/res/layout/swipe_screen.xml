@@ -43,5 +43,19 @@
         android:drawablePadding="0dp"
         />
 
+    <Button
+        android:id="@+id/btn_got_it"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:text="Got it"
+        android:textSize="22dp"
+        android:textAllCaps="true"
+        android:textColor="@color/skipTextColor"
+        />
+
+
 
 </RelativeLayout>
