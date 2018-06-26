@@ -3,22 +3,20 @@ package apps.inets.com.shulesoft.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -48,12 +46,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    private String mSchoolURL;
+    private String mSchoolName;
 
     /**
      * Email or phone number entered
      */
-    private String mEmail ;
+    private String mEmail;
 
     /**
      * Password entered
@@ -83,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Set up the login form.
+        //Set up the email view,password view and the login button
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -101,7 +99,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
 
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -113,13 +110,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        Intent intent = getIntent();
 
+        //Gets the clicked school name
+        Intent intent = getIntent();
         Bundle intentData = intent.getExtras();
 
-        if(intentData != null){
-            String schoolUrl = (String) intentData.get("URL");
-            mSchoolURL = schoolUrl;
+        if (intentData != null) {
+            mSchoolName = (String) intentData.get("School");
+
         }
     }
 
@@ -182,8 +180,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        mEmail= mEmailView.getText().toString();
-        mPassword= mPasswordView.getText().toString();
+        mEmail = mEmailView.getText().toString();
+        mPassword = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -193,7 +191,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
-        } else if(!isPasswordValid(mPassword)){
+        } else if (!isPasswordValid(mPassword)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -226,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public String getEmail() {
-        if(isEmailValid(mEmail)){
+        if (isEmailValid(mEmail)) {
             return mEmail;
         }
         return null;
@@ -234,7 +232,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public String getPassword() {
 
-        if(isPasswordValid(mPassword)){
+        if (isPasswordValid(mPassword)) {
             return mPassword;
         }
         return null;
@@ -242,7 +240,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
 
-        return email.contains("@")||email.length()==10;
+        return email.contains("@") || email.length() == 10;
     }
 
     private boolean isPasswordValid(String password) {
@@ -339,7 +337,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    public void openTermsAndPrivacy(View view){}
+    public void openTermsAndPrivacy(View view) {
+    }
 
 
     /**

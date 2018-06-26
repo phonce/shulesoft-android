@@ -1,30 +1,30 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
-        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!-- Base application theme.
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        &lt;!&ndash; Customize your theme here. &ndash;&gt;
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>-->
 
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="windowNoTitle">true</item>-->
-    <!--</style>-->
-
-
-    <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
-        <!-- colorPrimary is used, for instance, for the default ActionBar
+   <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+       <!-- &lt;!&ndash; colorPrimary is used, for instance, for the default ActionBar
              (but not Toolbar) background.
               We specify the same color for the toolbar background in
-              toolbar.xml.. -->
+              toolbar.xml.. &ndash;&gt; -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        h
-        <!-- colorPrimaryDark is used for the status bar (with the
-             battery, clock, etc). -->
+
+       <!-- &lt;!&ndash; colorPrimaryDark is used for the status bar (with the
+             battery, clock, etc). &ndash;&gt; -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
-        <!-- colorAccent is used as the default value for
-             colorControlActivated which is used to tint widgets. -->
-        <item name="colorAccent">@color/white</item>
+       <!-- &lt;!&ndash; colorAccent is used as the default value for
+             colorControlActivated which is used to tint widgets. &ndash;&gt; -->
+        <item name="colorAccent">#FF4081</item>
 
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
