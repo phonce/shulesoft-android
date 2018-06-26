@@ -6,11 +6,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -24,44 +36,51 @@ import apps.inets.com.shulesoft.School;
 
 public class SchoolSearchActivity extends AppCompatActivity {
 
-    private ArrayAdapter<School> adapter;
+    private ArrayAdapter<String> adapter;
+
+    private ArrayList<String > mSchools;
 
     private EditText editText;
 
     private ListView listView;
+
+    private RequestQueue mRequestQueue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schools);
 
-        ArrayList<School> schools = new ArrayList<>();
+        mRequestQueue = Volley.newRequestQueue(this);
 
-        for (int i = 0; i < 10; i++) {
-            schools.add(new
-                    School("Makongo", "https://makongo.shulesoft.com"));
-            schools.add(new
-                    School("Canossa", "https://canossa.shulesoft.com"));
-        }
+        mSchools = new ArrayList<String>();
+        makeHttpRequest();
+
+        /*for (int i = 0; i < 10; i++) {
+            mSchools.add("makongo");
+            mSchools.add("canossa");
+        }*/
+
         editText = (EditText) findViewById(R.id.search_edit_text);
+        editText.setHint("\uD83D\uDD0D     Search Schools");
+
         listView = (ListView) findViewById(R.id.list);
 
-        adapter = new SchoolAdapter(this, schools);
-
-
+        adapter = new ArrayAdapter<String>(this,R.layout.schools_list_item,mSchools);
 
         listView.setAdapter(adapter);
 
+        /**
+         * Starts the login activity and passes the clicked school name to it
+         */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                School currentSchool = adapter.getItem(i);
-
-                String currentSchoolUrl = currentSchool.getUrl();
+                String currentSchool =  adapter.getItem(i);
 
                 Intent loginIntent = new Intent
                         (SchoolSearchActivity.this, LoginActivity.class);
-                loginIntent.putExtra("URL", currentSchoolUrl);
+                loginIntent.putExtra("School", currentSchool);
                 startActivity(loginIntent);
             }
         });
@@ -83,5 +102,56 @@ public class SchoolSearchActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    /**
+     * Makes a network request to return the list of schools
+     */
+    public void makeHttpRequest(){
+        String getSchoolsUrl = "http://158.69.112.216:8081/api";
+
+        JSONObject params = new JSONObject();
+
+        //String shulesoftChecksum = md5.
+        try {
+            params= params.put("tag", "getSchools");
+            params = params.put("checksum","md5('shulesoft')");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,params,
+                 new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        for(int i = 0; i <response.length(); i++){
+                            try {
+                                JSONObject school = response.getJSONObject(i);
+                                String name = school.getString("table_schema");
+                                mSchools.add(name);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Log.v("Response","There is a response");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                        Log.v("HAHAHAH",error.toString());
+            }
+        });
+        mRequestQueue.add(jsonArrayRequest);
+    }
+
+    /**
+     *
+     * @return the request queue
+     */
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
     }
 }
