@@ -55,7 +55,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
         mRequestQueue = Volley.newRequestQueue(this);
 
         mSchools = new ArrayList<String>();
-        makeHttpRequest();
+        //makeHttpRequest();
 
         /*for (int i = 0; i < 10; i++) {
             mSchools.add("makongo");
@@ -105,48 +105,35 @@ public class SchoolSearchActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Makes a network request to return the list of schools
-     */
-    public void makeHttpRequest(){
-        String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
-
-       /* JSONObject params = new JSONObject();
-
-        //String shulesoftChecksum = md5.
-        try {
-            params= params.put("tag", "getSchools");
-            params = params.put("checksum","md5('shulesoft')");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-*/
-
-
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,
-                 new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i <response.length(); i++){
-                            try {
-                                JSONObject school = response.getJSONObject(i);
-                                String name = school.getString("table_schema");
-                                mSchools.add(name);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        Log.v("Response","There is a response");
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                        Log.v("HAHAHAH",error.toString());
-            }
-        });
-        mRequestQueue.add(jsonArrayRequest);
-    }
+//    /**
+//     * Makes a network request to return the list of schools
+//     */
+//    public void makeHttpRequest() {
+//        String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
+//
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,
+//                new Response.Listener<JSONArray>() {
+//                    @Override
+//                    public void onResponse(JSONArray response) {
+//                        for (int i = 0; i < response.length(); i++) {
+//                            try {
+//                                JSONObject school = response.getJSONObject(i);
+//                                String name = school.getString("table_schema");
+//                                mSchools.add(name);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        Log.v("Response", "There is a response");
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.v("SERVER ERROR", error.toString());
+//            }
+//        });
+//        mRequestQueue.add(jsonArrayRequest);
+//    }
 
     /**
      *
