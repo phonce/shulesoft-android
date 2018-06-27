@@ -1,8 +1,13 @@
 package apps.inets.com.shulesoft;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,9 +33,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import apps.inets.com.shulesoft.R;
-import apps.inets.com.shulesoft.School;
-
 
 /**
  * Created by admin on 19 Jun 2018.
@@ -38,84 +42,58 @@ public class SchoolSearchActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> adapter;
 
-    private ArrayList<String > mSchools;
+    private ArrayList<String> mSchools;
 
-    private EditText editText;
-
-    private ListView listView;
 
     private RequestQueue mRequestQueue;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schools);
-
         mRequestQueue = Volley.newRequestQueue(this);
-
         mSchools = new ArrayList<String>();
         makeHttpRequest();
+        setContentView(R.layout.activity_schools);
 
-        /*for (int i = 0; i < 10; i++) {
-            mSchools.add("makongo");
-            mSchools.add("canossa");
-        }*/
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_search);
+        
 
-        editText = (EditText) findViewById(R.id.search_edit_text);
-        editText.setHint("\uD83D\uDD0D     Search Schools");
+        adapter = new ArrayAdapter<String>(this, R.layout.schools_list_item, mSchools);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-        listView = (ListView) findViewById(R.id.list);
 
-        adapter = new ArrayAdapter<String>(this,R.layout.schools_list_item,mSchools);
-
-        listView.setAdapter(adapter);
-
-        /**
-         * Starts the login activity and passes the clicked school name to it
-         */
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String currentSchool =  adapter.getItem(i);
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSchool = parent.getItemAtPosition(position).toString();
                 Intent loginIntent = new Intent
                         (SchoolSearchActivity.this, LoginActivity.class);
-                loginIntent.putExtra("School", currentSchool);
+                loginIntent.putExtra("School", selectedSchool);
                 startActivity(loginIntent);
             }
-        });
-
-
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               SchoolSearchActivity.this.adapter.getFilter().filter(charSequence.toString());
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
     }
 
+
     /**
      * Makes a network request to return the list of schools
      */
-    public void makeHttpRequest(){
+    public void makeHttpRequest() {
         String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
 
-
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,
-                 new Response.Listener<JSONArray>() {
+                new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        for(int i = 0; i <response.length(); i++){
+                        for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject school = response.getJSONObject(i);
                                 String name = school.getString("table_schema");
@@ -124,22 +102,31 @@ public class SchoolSearchActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        Log.v("Response","There is a response");
+                        Log.v("Response", "There is a response");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                        Log.v("HAHAHAH",error.toString());
+                Log.v("SERVER ERROR", error.toString());
             }
         });
         mRequestQueue.add(jsonArrayRequest);
     }
 
-    /**
-     *
-     * @return the request queue
-     */
+    /*    *//**
+         * Checks if network connection is available
+         *//*
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
     public RequestQueue getRequestQueue() {
         return mRequestQueue;
-    }
+    }*/
+
+
 }
+
