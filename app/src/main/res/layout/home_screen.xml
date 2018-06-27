@@ -166,6 +166,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent">
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -174,9 +175,8 @@
             android:scaleType="centerCrop"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/fab_margin"
-            android:background="@color/colorPrimary"
-            app:fabSize="normal"
-            android:src="@drawable/plus" />
+            android:background="@color/white"
+            android:src="@drawable/ic_add_circle" />
     </RelativeLayout>
 
 </LinearLayout>
