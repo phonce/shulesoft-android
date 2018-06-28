@@ -1,4 +1,4 @@
-package apps.inets.com.shulesoft;
+package apps.inets.com.shulesoft.activities;
 
 
 import android.content.Context;
@@ -34,6 +34,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
+import apps.inets.com.shulesoft.R;
+
+
 /**
  * Created by admin on 19 Jun 2018.
  */
@@ -54,11 +57,12 @@ public class SchoolSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mRequestQueue = Volley.newRequestQueue(this);
         mSchools = new ArrayList<String>();
+
         makeHttpRequest();
         setContentView(R.layout.activity_schools);
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner_search);
-        
+
 
         adapter = new ArrayAdapter<String>(this, R.layout.schools_list_item, mSchools);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -82,6 +86,8 @@ public class SchoolSearchActivity extends AppCompatActivity {
         });
     }
 
+    
+
 
     /**
      * Makes a network request to return the list of schools
@@ -89,11 +95,37 @@ public class SchoolSearchActivity extends AppCompatActivity {
     public void makeHttpRequest() {
         String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,
-                new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,getSchoolsUrl, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject school = response.getJSONObject(i);
+                        String name = school.getString("table_schema");
+                        mSchools.add(name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.v("Response", "There is a response");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v("SERVER ERROR", error.toString());
+            }
+        });
+        mRequestQueue.add(jsonArrayRequest);
+
+    }
+}
+
+
+      /*  JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,
+                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        for (int i = 0; i < response.length(); i++) {
+                        for(int i = 0; i <response.length(); i++){
                             try {
                                 JSONObject school = response.getJSONObject(i);
                                 String name = school.getString("table_schema");
@@ -102,20 +134,21 @@ public class SchoolSearchActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        Log.v("Response", "There is a response");
+                        Log.v("Response","There is a response");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("SERVER ERROR", error.toString());
+                        Log.v("HAHAHAH",error.toString());
             }
         });
-        mRequestQueue.add(jsonArrayRequest);
-    }
+
+    }*/
+
 
     /*    *//**
-         * Checks if network connection is available
-         *//*
+ * Checks if network connection is available
+ *//*
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -128,5 +161,5 @@ public class SchoolSearchActivity extends AppCompatActivity {
     }*/
 
 
-}
+
 

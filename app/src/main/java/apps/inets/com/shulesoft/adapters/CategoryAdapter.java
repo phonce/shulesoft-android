@@ -1,9 +1,14 @@
-package apps.inets.com.shulesoft;
+package apps.inets.com.shulesoft.adapters;
 
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import apps.inets.com.shulesoft.slideshow.FirstScreen;
+import apps.inets.com.shulesoft.slideshow.FourthScreen;
+import apps.inets.com.shulesoft.slideshow.SecondScreen;
+import apps.inets.com.shulesoft.slideshow.ThirdScreen;
 
 /**
  * Created by katherinekuan on 4/14/16.

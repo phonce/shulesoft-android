@@ -1,5 +1,4 @@
-
-package apps.inets.com.shulesoft;
+package apps.inets.com.shulesoft.extras;
 /**
  * Created by admin on 20 Jun 2018.
  */

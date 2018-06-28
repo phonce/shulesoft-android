@@ -1,7 +1,9 @@
-package apps.inets.com.shulesoft;
+package apps.inets.com.shulesoft.slideshow;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import apps.inets.com.shulesoft.R;
 
 /*
 *

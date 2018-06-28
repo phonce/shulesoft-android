@@ -1,4 +1,4 @@
-package apps.inets.com.shulesoft;
+package apps.inets.com.shulesoft.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import apps.inets.com.shulesoft.R;
-import apps.inets.com.shulesoft.School;
+import apps.inets.com.shulesoft.extras.School;
 
 /**
  * Created by admin on 20 Jun 2018.
@@ -62,7 +62,7 @@ public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
 
          TextView nameView = (TextView) listItemView.findViewById(R.id.school_name);
 
-        apps.inets.com.shulesoft.School currentSchool = getItem(position);
+        School currentSchool = getItem(position);
         nameView.setText(currentSchool.getName().toString());
 
         return listItemView;

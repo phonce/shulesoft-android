@@ -1,4 +1,4 @@
-package apps.inets.com.shulesoft;
+package apps.inets.com.shulesoft.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import apps.inets.com.shulesoft.R;
+
 public class FeatureActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -25,7 +27,7 @@ public class FeatureActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip;
+    private Button btnSkip, btnGotIt;
     //private PrefManager prefManager;
 
     @Override
@@ -49,6 +51,8 @@ public class FeatureActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnSkip = (Button) findViewById(R.id.btn_skip);
+        btnGotIt = (Button) findViewById(R.id.btn_got_it);
+        btnGotIt.setVisibility(View.GONE);
 
 
         // layouts of all welcome sliders
@@ -103,7 +107,7 @@ public class FeatureActivity extends AppCompatActivity {
 
     // private void launchHomeScreen() {
     //     prefManager.setFirstTimeLaunch(false);
-    //     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+    //     startActivity(new Intent(FeatureActivity.this, MainActivity.class));
     //     finish();
     // }
 
@@ -117,11 +121,11 @@ public class FeatureActivity extends AppCompatActivity {
             // changing the next button text 'NEXT' / 'GOT IT'
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
-
+                btnGotIt.setVisibility(View.VISIBLE);
                 btnSkip.setVisibility(View.GONE);
             } else {
                 // still pages are left
-
+                btnGotIt.setVisibility(View.GONE);
                 btnSkip.setVisibility(View.VISIBLE);
             }
         }
