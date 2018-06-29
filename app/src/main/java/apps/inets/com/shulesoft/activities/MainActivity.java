@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void searchSchools(View view){
+    public void openFeatureActivity(View view){
         Intent intent = new Intent
-                (this, SchoolSearchActivity.class);
+                (this, FeatureActivity.class);
         startActivity(intent);
     }
 }
