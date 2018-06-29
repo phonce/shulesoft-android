@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -23,6 +24,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -124,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
 
-        //Gets the clicked school name
+        //Gets and stores the clicked school name from searchActivity
         Intent intent = getIntent();
         Bundle intentData = intent.getExtras();
 
@@ -137,45 +139,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Makes a network request to login a user by sending a post request to the server
      * and interpreting the response
      */
-    public void makeHttpRequest(String schoolName, String username, String password){
+    public void makeHttpRequest(String schoolName, String username, String password) {
         String getSchoolsUrl = "http://158.69.112.216:8081/api/login";
 
         JSONObject params = new JSONObject();
 
         try {
-            params= params.put("School", schoolName);
-            params= params.put("username", username);
-            params= params.put("password", password);
+            params = params.put("School", schoolName);
+            params = params.put("username", username);
+            params = params.put("password", password);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getSchoolsUrl,params,
-                new Response.Listener<JSONObject> () {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, getSchoolsUrl, params,
+                new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject reponseObject) {
-                        try{
+                        try {
                             String fromServer = reponseObject.getString("message");
-                            if (fromServer.equals("success")){
+                            if (fromServer.equals("success")) {
                                 startActivity(new Intent(LoginActivity.this, HomeScreenActivity.class));
-                            }
-                            else{
+                            } else {
 
                                 openTermsAndPrivacy();
                             }
-                        }catch(JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.v("Response","There is a response");
+                        Log.v("Response", "There is a response");
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("HAHAHAH",error.toString());
+                Log.v("HAHAHAH", error.toString());
             }
         });
         mRequestQueue.add(jsonObjectRequest);
@@ -340,6 +340,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -401,4 +402,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 }
+
+
 

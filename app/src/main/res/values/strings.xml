@@ -26,6 +26,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="select_school_hint">Select School</string>
+    <string name="no_Internet_Connection">There is no Internet connection</string>
+    <string name="select_school_below">Select your School from the dropdown below</string>
     <string name="request_new_password">Click to change password</string>
     <string name="forgot_or_lost_password"> Forgot or lost password?</string>
     <string name="terms_privacy">Privacy and Terms</string>
