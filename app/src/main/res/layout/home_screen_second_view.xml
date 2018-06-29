@@ -21,9 +21,14 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_add_circle" />
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_add"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@color/colorPrimary"
+        app:borderWidth="0dp"
+        android:layout_margin="16dp"
+        app:fabSize="normal"
+        android:scaleType="center"
+        android:elevation="15dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

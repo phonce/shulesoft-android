@@ -77,8 +77,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="8dp"
+                    card_view:cardBackgroundColor="@color/white"
                     card_view:cardCornerRadius="4dp"
-                    card_view:cardElevation="2dp">
+                    card_view:cardElevation="20dp">
 
                     <!--<ImageView-->
                     <!--android:id="@+id/payments_image"-->
