@@ -188,5 +188,6 @@ public class FeatureActivity extends AppCompatActivity {
             container.removeView(view);
         }
     }
+
 }
 

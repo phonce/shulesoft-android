@@ -1,24 +1,15 @@
 package apps.inets.com.shulesoft.activities;
 
-
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,7 +29,7 @@ import apps.inets.com.shulesoft.R;
 
 
 /**
- * Created by admin on 19 Jun 2018.
+ * Models an activity with a searchable spinner displaying a list of schools
  */
 
 public class SchoolSearchActivity extends AppCompatActivity {
@@ -86,14 +77,13 @@ public class SchoolSearchActivity extends AppCompatActivity {
         });
     }
 
-    
 
 
     /**
      * Makes a network request to return the list of schools
      */
     public void makeHttpRequest() {
-        String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
+        String getSchoolsUrl = "http://192.168.1.4/school/api/getSchools";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,getSchoolsUrl, new Response.Listener<JSONArray>() {
             @Override
@@ -119,32 +109,6 @@ public class SchoolSearchActivity extends AppCompatActivity {
 
     }
 }
-
-
-      /*  JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl,
-                 new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        for(int i = 0; i <response.length(); i++){
-                            try {
-                                JSONObject school = response.getJSONObject(i);
-                                String name = school.getString("table_schema");
-                                mSchools.add(name);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        Log.v("Response","There is a response");
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                        Log.v("HAHAHAH",error.toString());
-            }
-        });
-
-    }*/
-
 
     /*    *//**
  * Checks if network connection is available
