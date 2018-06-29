@@ -12,11 +12,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
-    //revert back to FeatureActivity
+    
     public void openFeatureActivity(View view){
         Intent intent = new Intent
-                (this, HomeScreenActivity.class);
+                (this, FeatureActivity.class);
         startActivity(intent);
     }
 }
