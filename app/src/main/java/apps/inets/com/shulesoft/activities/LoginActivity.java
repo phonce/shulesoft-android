@@ -3,11 +3,13 @@ package apps.inets.com.shulesoft.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -30,6 +32,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -72,6 +75,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Password entered
      */
     private String mPassword;
+
+    private static final String PREFS_NAME = "preferences";
+    private static final String PREF_UNAME = "Username";
+    private static final String PREF_PASSWORD = "Password";
+
+    private final String DefaultUnameValue = "";
+    private String UnameValue;
+
+    private final String DefaultPasswordValue = "";
+    private String PasswordValue;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -135,11 +148,56 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    /**
+     * Saves username and password
+     */
+    private void savePreferences() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
+        // Edit and commit
+        UnameValue = mEmailView.getText().toString();
+        PasswordValue = mPasswordView.getText().toString();
+        editor.putString(PREF_UNAME, UnameValue);
+        editor.putString(PREF_PASSWORD, PasswordValue);
+        editor.commit();
+    }
+
+    /**
+     * Loads the saved password and username and fills the respective fields
+     */
+    private void loadPreferences() {
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME,
+                Context.MODE_PRIVATE);
+
+        // Get value
+        UnameValue = settings.getString(PREF_UNAME, DefaultUnameValue);
+        PasswordValue = settings.getString(PREF_PASSWORD, DefaultPasswordValue);
+        mEmailView.setText(UnameValue);
+        mPasswordView.setText(PasswordValue);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadPreferences();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        savePreferences();
+
+    }
+
     /*
      * Makes a network request to login a user by sending a post request to the server
      * and interpreting the response
      */
-    public void makeHttpRequest(String schoolName, String username, String password) {
+    public void makeHttpRequest(final String schoolName, String username, String password) {
         String getSchoolsUrl = "http://158.69.112.216:8081/api/login";
 
         JSONObject params = new JSONObject();
@@ -162,10 +220,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         try {
                             String fromServer = reponseObject.getString("message");
                             if (fromServer.equals("success")) {
-                                startActivity(new Intent(LoginActivity.this, HomeScreenActivity.class));
+                                Intent intent = new Intent
+                                        (LoginActivity.this, HomeScreenActivity.class);
+                                intent.putExtra("School",schoolName);
+                                startActivity(intent);
                             } else {
 
-                                openTermsAndPrivacy();
+                                wrongDetails();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -395,11 +456,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    public void openTermsAndPrivacy() {
-        TextView wrongstuff = (TextView) findViewById(R.id.terms_privacy);
-        showProgress(false);
-        wrongstuff.setText("Wrong email or password");
+
+    /**
+     * Displays a toast when user has entered wrong details and restarts the activity
+     */
+    public void wrongDetails() {
+        String wrong =  getResources().getString(R.string.wrong_details);
+        Toast.makeText(this,wrong, Toast.LENGTH_LONG).show();
+        recreate();
     }
+
+    /**
+     * Opens terms and privacy webpage in the user's browser
+     */
+    public void openTermsAndPrivacy(View view){
+        String url = "https://www.shulesoft.com/shulesoft-school-management-system-privacy-policy/";
+        Intent privacyIntent = new Intent(Intent.ACTION_VIEW);
+        privacyIntent.setData(Uri.parse(url));
+        startActivity(privacyIntent);
+    }
+
 
 }
 

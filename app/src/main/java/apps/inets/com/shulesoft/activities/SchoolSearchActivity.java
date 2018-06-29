@@ -83,7 +83,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
      * Makes a network request to return the list of schools
      */
     public void makeHttpRequest() {
-        String getSchoolsUrl = "http://192.168.1.4/school/api/getSchools";
+        String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,getSchoolsUrl, new Response.Listener<JSONArray>() {
             @Override
@@ -110,7 +110,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
     }
 }
 
-    /*    *//**
+/**
  * Checks if network connection is available
  *//*
 

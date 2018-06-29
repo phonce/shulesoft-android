@@ -1,6 +1,7 @@
 package apps.inets.com.shulesoft.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +22,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -30,8 +33,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.the_Toolbar);
 
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //setSupportActionBar(toolbar);
+       // getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 //        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 //
@@ -89,5 +92,21 @@ public class HomeScreenActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
         return true;
+    }
+
+    /*
+        Restarts the school search activity when the back button is pressed
+     */
+    @Override
+    public void onBackPressed(){
+        Intent schoolNameIntent = getIntent();
+
+        String schoolName = "";
+        if(schoolNameIntent.getExtras() != null){
+             schoolName = (String) schoolNameIntent.getExtras().get("School");
+        }
+        Intent backIntent = new Intent(this,LoginActivity.class);
+        backIntent.putExtra("School",schoolName);
+        startActivity(backIntent);
     }
 }
