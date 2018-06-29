@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:minHeight="?attr/actionBarSize">
+
+    <include
+        layout="@layout/toolbar_homescreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/Button01"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Reports" />
+            <Button
+                android:id="@+id/Button02"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Payments" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.00"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="School Calendar" />
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Sms/Announcements" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view_payments"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    card_view:cardCornerRadius="4dp"
+                    card_view:cardElevation="2dp">
+
+                    <!--<ImageView-->
+                    <!--android:id="@+id/payments_image"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:elevation="30dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:src="@drawable/white"-->
+                    <!--/>-->
+
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
