@@ -73,13 +73,19 @@ public class FeatureActivity extends AppCompatActivity {
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-        // btnSkip.setOnClickListener(new View.OnClickListener() {
-        //     @Override
-        //     public void onClick(View v) {
-        //         launchHomeScreen();
-        //     }
-        // });
+         btnSkip.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 startActivity(new Intent(FeatureActivity.this,SchoolSearchActivity.class));
+             }
+         });
 
+         btnGotIt.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 startActivity(new Intent(FeatureActivity.this,SchoolSearchActivity.class));
+             }
+         });
     }
 
     private void addBottomDots(int currentPage) {

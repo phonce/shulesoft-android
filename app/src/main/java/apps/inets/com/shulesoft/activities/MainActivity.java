@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void searchSchools(View view){
+    public void openFeatureActivity(View view){
         Intent intent = new Intent
                 (this, FeatureActivity.class);
         startActivity(intent);
