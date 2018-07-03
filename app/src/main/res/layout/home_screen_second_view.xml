@@ -7,15 +7,9 @@
     android:fitsSystemWindows="true"
     tools:context="apps.inets.com.shulesoft.activities.HomeScreenActivity">
 
+    <include layout="@layout/toolbar_homescreen" />
 
-
-    <include
-        layout="@layout/toolbar_homescreen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
-    <include layout="@layout/categories_home_screen" />
+    <include layout="@layout/categories_home_screen"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -29,6 +23,6 @@
         android:layout_margin="16dp"
         app:fabSize="normal"
         android:scaleType="center"
-        android:elevation="15dp"/>
+        android:elevation="20dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

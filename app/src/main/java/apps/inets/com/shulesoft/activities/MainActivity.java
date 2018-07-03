@@ -11,11 +11,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        openFeatureActivity();
     }
-    
-    public void openFeatureActivity(View view){
+
+    //revert back to FeatureActivity .. parameter----View view
+    public void openFeatureActivity(){
         Intent intent = new Intent
-                (this, FeatureActivity.class);
+                (this, HomeScreenActivity.class);
         startActivity(intent);
     }
 }
