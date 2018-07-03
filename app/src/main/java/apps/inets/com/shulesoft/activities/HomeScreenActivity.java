@@ -1,6 +1,7 @@
 package apps.inets.com.shulesoft.activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -26,6 +27,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private Button navigationButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,5 +116,21 @@ public class HomeScreenActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main,menu);
         return true;
+    }
+
+    /*
+        Restarts the school search activity when the back button is pressed
+     */
+    @Override
+    public void onBackPressed(){
+        Intent schoolNameIntent = getIntent();
+
+        String schoolName = "";
+        if(schoolNameIntent.getExtras() != null){
+             schoolName = (String) schoolNameIntent.getExtras().get("School");
+        }
+        Intent backIntent = new Intent(this,LoginActivity.class);
+        backIntent.putExtra("School",schoolName);
+        startActivity(backIntent);
     }
 }

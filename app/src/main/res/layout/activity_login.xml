@@ -92,6 +92,7 @@
                     android:textStyle="bold"
                     tools:text="Sign in" />
 
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -104,6 +105,7 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/forgot_or_lost_password"
                         tools:text=" Forgot or lost password?" />
+
                 </RelativeLayout>
 
 

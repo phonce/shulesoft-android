@@ -4,21 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import apps.inets.com.shulesoft.R;
-
-
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        openFeatureActivity();
     }
 
     //revert back to FeatureActivity .. parameter----View view
-    public void openFeatureActivity(){
+    public void openFeatureActivity(View view){
         Intent intent = new Intent
-                (this, HomeScreenActivity.class);
+                (this, FeatureActivity.class);
         startActivity(intent);
     }
 }

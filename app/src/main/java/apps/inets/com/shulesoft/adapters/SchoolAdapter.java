@@ -94,7 +94,7 @@ public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
                 {
                     if(mFilterList.get(i).getName().toUpperCase().contains(constraint))
                     {
-                         School school=new School(mFilterList.get(i).getName(), mFilterList.get(i).getUrl());
+                         School school=new School(mFilterList.get(i).getName(), mFilterList.get(i).getImageUrl());
 
                         filters.add(school);
                     }

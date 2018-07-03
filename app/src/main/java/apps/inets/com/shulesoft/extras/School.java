@@ -5,12 +5,12 @@ package apps.inets.com.shulesoft.extras;
 
 public class School {
 
-    private String mUrl;
+    private String ImageUrl;
 
     private String mName;
 
     public School(String name, String url){
-        mUrl = url;
+        ImageUrl = url;
         mName = name;
     }
 
@@ -18,7 +18,7 @@ public class School {
         return mName;
     }
 
-    public String getUrl() {
-        return mUrl;
+    public String getImageUrl() {
+        return ImageUrl;
     }
 }
