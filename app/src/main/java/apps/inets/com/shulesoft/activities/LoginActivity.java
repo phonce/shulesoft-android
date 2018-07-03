@@ -163,6 +163,11 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this,SchoolSearchActivity.class);
+        startActivity(intent);
+    }
     /**
      * Loads the saved password and username and fills the respective fields
      */

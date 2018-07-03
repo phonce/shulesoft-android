@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //revert back to FeatureActivity .. parameter----View view
     public void openFeatureActivity(View view){
         Intent intent = new Intent
                 (this, FeatureActivity.class);

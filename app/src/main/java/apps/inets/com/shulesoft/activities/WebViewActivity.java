@@ -62,13 +62,6 @@ public class WebViewActivity extends AppCompatActivity {
         }
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            webView.loadUrl("http://192.168.1.2/school");
-            progDialog.show();
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-
-        @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             new Thread(new Runnable() {
                 @Override

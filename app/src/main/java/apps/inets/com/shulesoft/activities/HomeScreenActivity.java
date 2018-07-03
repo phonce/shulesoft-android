@@ -3,12 +3,17 @@ package apps.inets.com.shulesoft.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +26,7 @@ import apps.inets.com.shulesoft.R;
 public class HomeScreenActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+    private Button navigationButton;
 
 
 
@@ -31,27 +37,45 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.home_screen_root_view);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.the_Toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
 
-        //setSupportActionBar(toolbar);
-       // getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        View view = findViewById(R.id.the_Toolbar);
 //
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        if (navigationView != null) {
-//            setupDrawerContent(navigationView);
-//        }
 //
-//        Button navigationDrawerButton = (Button) findViewById(R.id.navigation_icon);
-//        navigationDrawerButton.setOnClickListener(new View.OnClickListener() {
+//        navigationButton = view.findViewById(R.id.nav_icon);
+//        navigationButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                mDrawerLayout.openDrawer(GravityCompat.START);
+//                Snackbar.make(v, "Thank you", Snackbar.LENGTH_SHORT)
+//                        .setAction("Action", null).show();
+//                //Log.d("Tunataka kuona uko wapi", "We are testing");
+////                mDrawerLayout.openDrawer(Gravity.START);
+////                Toast.makeText(HomeScreenActivity.this, "Your toast message.",
+////                        Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "You are adding something", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
+    //Fix the setOnClick method
+    public void navigationOpener(View v){
+        mDrawerLayout.openDrawer(Gravity.START);
+    }
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -70,7 +94,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                mDrawerLayout.openDrawer(Gravity.START);
                 return true;
 //            case R.id.menu_night_mode_system:
 //                setNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
