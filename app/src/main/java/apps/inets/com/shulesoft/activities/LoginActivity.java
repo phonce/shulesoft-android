@@ -402,10 +402,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(privacyIntent);
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, SchoolSearchActivity.class));
-    }
+//    @Override
+//    public void onBackPressed() {
+//        startActivity(new Intent(this, SchoolSearchActivity.class));
+//    }
 }
 
 

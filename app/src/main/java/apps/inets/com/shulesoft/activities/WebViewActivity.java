@@ -33,56 +33,96 @@ public class WebViewActivity extends AppCompatActivity {
         String url = "https://" + schoolName + FINAL_URL;
 
         webView = findViewById(R.id.webview);
-        webView.setWebViewClient(new MyWebViewClient());
+        startWebView("https://www.google.com");
+//        webView.setWebViewClient(new WebViewClient());
 
-        ProgressDialog progDailog = ProgressDialog.show(this, "Loading","Please wait...", true);
-        progDailog.setCancelable(false);
-
-
-
-        Log.v("URL",""+a+"haha"+b);
-
-       webView.getSettings().setJavaScriptEnabled(true);
-       webView.getSettings().setLoadsImagesAutomatically(true);
-       //webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setUserAgentString("Android WebView");
+//        ProgressDialog progDailog = ProgressDialog.show(this, "Loading","Please wait...", true);
+//        progDailog.setCancelable(false);
 
 
-        Log.v("URL",url);
+//        Log.v("URL", "" + a + "haha" + b);
+//
+//       //webView.getSettings().setJavaScriptEnabled(true);
+//       webView.getSettings().setLoadsImagesAutomatically(true);
+//       webView.getSettings().setDomStorageEnabled(true);
+//        webView.getSettings().setDisplayZoomControls(true);
+//        webView.loadUrl("https://makongo.shulesoft.com");
+//        webView.getSettings().setUserAgentString("Android WebView");
+//
+//
+//        Log.v("URL",url);
 
+    }
+
+    private void startWebView(String url) {
+
+        //Create new webview Client to show progress dialog
+        //When opening a url or click on link
+
+        webView.setWebViewClient(new WebViewClient() {
+            ProgressDialog progressDialog;
+
+            //If you will not use this method url links are opeen in new brower not in webview
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            //Show loader on url load
+            public void onLoadResource (WebView view, String url) {
+                if (progressDialog == null) {
+                    // in standard case YourActivity.this
+                    progressDialog = new ProgressDialog(WebViewActivity.this);
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+                }
+            }
+            public void onPageFinished(WebView view, String url) {
+                try{
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                        progressDialog = null;
+                    }
+                }catch(Exception exception){
+                    exception.printStackTrace();
+                }
+            }
+
+        });
+
+        // Javascript inabled on webview
+        webView.getSettings().setJavaScriptEnabled(true);
+
+        // Other webview options
+        /*
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webView.setScrollbarFadingEnabled(false);
+        webView.getSettings().setBuiltInZoomControls(true);
+        */
+
+        /*
+         String summary = "<html><body>You scored <b>192</b> points.</body></html>";
+         webview.loadData(summary, "text/html", null);
+         */
+
+        //Load url in webview
+        webView.loadUrl(url);
 
 
     }
 
-    private class MyWebViewClient extends WebViewClient {
-        boolean timeout;
+    // Open previous opened link from history on webview when back button pressed
 
-        public MyWebViewClient() {
-            timeout = true;
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        Log.v("Loading time", "This is a big exception");
-                        //e.printStackTrace();
-                    }
-                    if(timeout) {
-                        // do what you want
-                        Log.v("Loading time", "Time is up");
-                    }
-                }
-            }).start();
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            timeout = false;
+    @Override
+    // Detect when the back button is pressed
+    public void onBackPressed() {
+        if(webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            // Let the system handle the back button
+            super.onBackPressed();
         }
     }
 
