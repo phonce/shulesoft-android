@@ -48,6 +48,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mRequestQueue = Volley.newRequestQueue(this);
         mSchools = new ArrayList<String>();
+        mSchools.add("offline");
 
         makeHttpRequest();
         setContentView(R.layout.activity_schools);
@@ -64,10 +65,10 @@ public class SchoolSearchActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedSchool = parent.getItemAtPosition(position).toString();
-                Intent loginIntent = new Intent
-                        (SchoolSearchActivity.this, LoginActivity.class);
-                loginIntent.putExtra("School", selectedSchool);
-                startActivity(loginIntent);
+                Intent webIntent = new Intent
+                        (SchoolSearchActivity.this,WebViewActivity.class);
+                webIntent.putExtra("School", selectedSchool);
+                startActivity(webIntent);
             }
 
             @Override

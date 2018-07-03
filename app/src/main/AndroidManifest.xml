@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="apps.inets.com.shulesoft">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
 
     <application
         android:allowBackup="true"
@@ -20,10 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HomeScreenActivity"></activity>
-        <activity android:name=".activities.FeatureActivity"></activity>
-        <activity android:name=".activities.SchoolSearchActivity"></activity>
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.HomeScreenActivity" />
+        <activity android:name=".activities.FeatureActivity" />
+        <activity android:name=".activities.SchoolSearchActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.WebViewActivity"></activity>
     </application>
 
 </manifest>

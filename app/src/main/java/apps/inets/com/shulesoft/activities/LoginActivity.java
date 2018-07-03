@@ -3,7 +3,7 @@ package apps.inets.com.shulesoft.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
+
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -13,7 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -26,7 +26,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
+
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -38,11 +38,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,7 +56,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -111,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //Set up the email view,password view and the login button
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
+        //populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
 
@@ -149,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     /**
-     * Saves username and password
+     * Saves username and password entered
      */
     private void savePreferences() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME,
@@ -193,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    /*
+    /**
      * Makes a network request to login a user by sending a post request to the server
      * and interpreting the response
      */
@@ -222,7 +221,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             if (fromServer.equals("success")) {
                                 Intent intent = new Intent
                                         (LoginActivity.this, HomeScreenActivity.class);
-                                intent.putExtra("School",schoolName);
+                                intent.putExtra("School", schoolName);
                                 startActivity(intent);
                             } else {
 
@@ -242,13 +241,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mRequestQueue.add(jsonObjectRequest);
     }
 
-    private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
 
-        getLoaderManager().initLoader(0, null, this);
-    }
 
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -270,19 +263,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
         }
         return false;
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete();
-            }
-        }
     }
 
 
@@ -322,11 +302,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
 
         }
-//        } else if (!isEmailValid(mEmail)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
-//            cancel = true;
-//        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -402,81 +377,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
-
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
 
 
     /**
      * Displays a toast when user has entered wrong details and restarts the activity
      */
     public void wrongDetails() {
-        String wrong =  getResources().getString(R.string.wrong_details);
-        Toast.makeText(this,wrong, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getResources().getString(R.string.wrong_details), Toast.LENGTH_LONG).show();
         recreate();
     }
 
     /**
      * Opens terms and privacy webpage in the user's browser
      */
-    public void openTermsAndPrivacy(View view){
+    public void openTermsAndPrivacy(View view) {
         String url = "https://www.shulesoft.com/shulesoft-school-management-system-privacy-policy/";
         Intent privacyIntent = new Intent(Intent.ACTION_VIEW);
         privacyIntent.setData(Uri.parse(url));
         startActivity(privacyIntent);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, SchoolSearchActivity.class));
+    }
 }
 
 
