@@ -168,6 +168,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this,SchoolSearchActivity.class);
         startActivity(intent);
     }
+
     /**
      * Loads the saved password and username and fills the respective fields
      */
@@ -379,11 +380,13 @@ public class LoginActivity extends AppCompatActivity {
         privacyIntent.setData(Uri.parse(url));
         startActivity(privacyIntent);
     }
-/*
-    @Override
+
+
+    /*@Override
     public void onBackPressed() {
         startActivity(new Intent(this, SchoolSearchActivity.class));
-    }*/
+    }
+*/
 }
 
 
