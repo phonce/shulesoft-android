@@ -3,9 +3,11 @@ package apps.inets.com.shulesoft.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -30,10 +32,11 @@ public class WebViewActivity extends AppCompatActivity {
 //        WebView webView = findViewById(R.id.webview);
         Intent intent = getIntent();
         String schoolName = intent.getStringExtra("School");
-        String url = "https://" + schoolName + FINAL_URL;
+        String url = "https://" + schoolName + FINAL_URL;;
+
 
         webView = findViewById(R.id.webview);
-        startWebView("https://www.google.com");
+        startWebView(url);
 //        webView.setWebViewClient(new WebViewClient());
 
 //        ProgressDialog progDailog = ProgressDialog.show(this, "Loading","Please wait...", true);
@@ -62,11 +65,18 @@ public class WebViewActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             ProgressDialog progressDialog;
 
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+            handler.proceed();
+            }
+
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+                //view.loadUrl(url);
+                return super.shouldOverrideUrlLoading(view, url);
             }
+
+
 
             //Show loader on url load
             public void onLoadResource (WebView view, String url) {
@@ -78,14 +88,18 @@ public class WebViewActivity extends AppCompatActivity {
                 }
             }
             public void onPageFinished(WebView view, String url) {
-                try{
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                        progressDialog = null;
-                    }
-                }catch(Exception exception){
-                    exception.printStackTrace();
-                }
+                progressDialog.dismiss();
+//                try{
+//                    if (progressDialog.isShowing()) {
+//                        progressDialog.dismiss();
+//                        progressDialog = null;
+//                    }else{
+//                        Log.v("Dialog", "error2");
+//                    }
+//                }catch(Exception exception){
+//                    exception.printStackTrace();
+//                    Log.v("Dialog", "error");
+//                }
             }
 
         });
@@ -94,13 +108,13 @@ public class WebViewActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
 
         // Other webview options
-        /*
+
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.setScrollbarFadingEnabled(false);
         webView.getSettings().setBuiltInZoomControls(true);
-        */
+
 
         /*
          String summary = "<html><body>You scored <b>192</b> points.</body></html>";
@@ -109,8 +123,6 @@ public class WebViewActivity extends AppCompatActivity {
 
         //Load url in webview
         webView.loadUrl(url);
-
-
     }
 
     // Open previous opened link from history on webview when back button pressed
