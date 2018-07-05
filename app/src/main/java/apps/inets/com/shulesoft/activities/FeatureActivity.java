@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import apps.inets.com.shulesoft.R;
 
@@ -29,7 +43,8 @@ public class FeatureActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnGotIt;
-    //private PrefManager prefManager;
+    private ArrayList<String> mSchools;
+    private RequestQueue mRequestQueue;
 
     /**/
     @Override
@@ -84,16 +99,25 @@ public class FeatureActivity extends AppCompatActivity {
          btnSkip.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 startActivity(new Intent(FeatureActivity.this,SchoolSearchActivity.class));
+                 Intent intent = new Intent(FeatureActivity.this,SchoolSearchActivity.class);
+                 intent.putExtra("Schools",mSchools);
+                 startActivity(intent);
              }
          });
 
          btnGotIt.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 startActivity(new Intent(FeatureActivity.this,SchoolSearchActivity.class));
+                 Intent intent = new Intent(FeatureActivity.this,SchoolSearchActivity.class);
+                 intent.putExtra("Schools",mSchools);
+                 startActivity(intent);
              }
          });
+
+
+        mRequestQueue = Volley.newRequestQueue(this);
+        mSchools = new ArrayList<String>();
+        makeHttpRequest();
     }
 
     /*changes the text and image of the changing feature*/
@@ -174,6 +198,8 @@ public class FeatureActivity extends AppCompatActivity {
         }
     }
 
+
+
     /**
      * View pager adapter to change the pages as one slides across
      */
@@ -219,5 +245,48 @@ public class FeatureActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Makes a network request to return the list of schools
+     */
+    public void makeHttpRequest() {
+        String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject school = response.getJSONObject(i);
+                        String name = school.getString("table_schema");
+                        mSchools.add(name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.v("Response", "There is a response");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v("SERVER ERROR", error.toString());
+            }
+        });
+        mRequestQueue.add(jsonArrayRequest);
+
+    }
+
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
+    }
+
+    /**
+     * Ensures that pressing the back button opens splash screnn not SchoolSearchActivity
+     */
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,MainActivity.class));
+    }
 }
 
