@@ -2,12 +2,21 @@
     <string name="app_name">ShuleSoft</string>
     <string name="about_app">ShuleSoft is a cloud based management system for schools that aims to bring efficiency in
         management and interaction between students, teachers &amp; parents. \n\n\n www.shulesoft.com </string>
-    <string name="feature1">This is fun</string>
-    <string name="feature2">This is awesome</string>
-    <string name="feature3">This is wonderful</string>
-    <string name="feature4">This is marvelous</string>
+    <string name="exam_reports_header">Exam Reports</string>
+    <string name="accounting_header">Accounting</string>
+    <string name="free_sms_header">Free Sms</string>
+    <string name="mobile_payments_header">Mobile Payments</string>
     <string name="next">SKIP</string>
     <string name="start">GOT IT</string>
+    <string name="exam_reports">As a teacher or school staff, create and edit students\' academic reports in under 5 minutes by just inputting students\' examination scores.
+        As a parent, be up to date with your child\'s academic progress by viewing the examination reports and progress charts of your child.
+        An finally as a student, stay in tune with your progress by viewing examination reports and progress charts with comments from teachers with what needs improvements for you to do better.</string>
+    <string name="accounting">As a school, easily manage and keep track of school\'s financial records such as expenses and revenue. Instantly create financial statements from
+    such as the balance sheet and income statement from the inputted data while easily managing things like fees collection from parents.</string>
+    <string name="free_sms">Get notified when any change is made to your account. As the school administration, easily send custom emails and free sms to parents, students or teachers concerning different issues such as meetings,
+    unpaid or paid fees and many others. As parents and students, get easily notified over SMS or email on what is going on at school.</string>
+    <string name="mobile_payments">Easily pay(parents) and receive payments(schools) via mobile payment systems such m-pesa, airtel money and tigo-pesa without having
+    to take payment slips to school for verification.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

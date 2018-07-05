@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ public class FeatureActivity extends AppCompatActivity {
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
 
+    /**/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,11 +77,17 @@ public class FeatureActivity extends AppCompatActivity {
 
         // layouts of all welcome sliders
         // add few more layouts if you want
-        layouts = new int[]{
+                layouts = new int[]{
                 R.layout.screen_one,
                 R.layout.screen_two,
                 R.layout.screen_three,
                 R.layout.screen_four};
+
+//        layouts = new int[]{
+//                R.layout.screen_one,
+//                R.layout.screen_two,
+//                R.layout.screen_three,
+//                R.layout.screen_four};
 
         // adding bottom dots
         addBottomDots(0);
@@ -113,6 +121,13 @@ public class FeatureActivity extends AppCompatActivity {
 
     }
 
+    /*changes the text and image of the changing feature*/
+    private void changeTextAndImage(){
+
+    }
+
+    /*post - adding bottom dots to the bottom of a swipe page
+    * corresponding to the current page selected*/
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
 
@@ -120,6 +135,7 @@ public class FeatureActivity extends AppCompatActivity {
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
 
         dotsLayout.removeAllViews();
+
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new TextView(this);
             dots[i].setText(Html.fromHtml("&#8226;"));
@@ -186,7 +202,7 @@ public class FeatureActivity extends AppCompatActivity {
 
 
     /**
-     * View pager adapter
+     * View pager adapter to change the pages as one slides across
      */
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
@@ -197,6 +213,14 @@ public class FeatureActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            //testing
+            //View view = layoutInflater.inflate(layouts[R.layout.screen_one], container, false);
+
+//            ImageView featuresImage = findViewById(R.id.image_feature);
+//            TextView featuresText = findViewById(R.id.features_text);
+//            featuresImage.setImageResource(R.drawable.free_sms);
+//            featuresText.setText(R.string.free_sms);
 
             View view = layoutInflater.inflate(layouts[position], container, false);
             container.addView(view);
