@@ -2,10 +2,12 @@ package apps.inets.com.shulesoft.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Layout;
@@ -43,6 +45,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
         mSchools = new ArrayList<String>();
 
         Bundle bundle = getIntent().getExtras();
+
         mSchools = (ArrayList<String>) bundle.get("Schools");
 
         //If there is no internet, display message
@@ -87,9 +90,9 @@ public class SchoolSearchActivity extends AppCompatActivity {
 
 
 
-    public void onBackPressed() {
+  /*  public void onBackPressed() {
         startActivity(new Intent(this, FeatureActivity.class));
-    }
+    }*/
 
 
     /**
@@ -102,6 +105,9 @@ public class SchoolSearchActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+
+
 
 
 }
