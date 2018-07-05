@@ -31,8 +31,8 @@
         android:text="Skip"
         android:textSize="22dp"
         android:textAllCaps="false"
-        android:textColor="@color/skipTextColor"
-        android:drawableRight="@drawable/ic_arrow_right"
+        android:textColor="@color/white"
+        android:drawableRight="@drawable/ic_arrow_forward"
         android:drawablePadding="0dp"
         />
 
@@ -46,9 +46,6 @@
         android:text="Got it"
         android:textSize="22dp"
         android:textAllCaps="true"
-        android:textColor="@color/skipTextColor"
-        />
-
-
+        android:textColor="@color/white" />
 
 </RelativeLayout>
