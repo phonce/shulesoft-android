@@ -1,22 +1,17 @@
 package apps.inets.com.shulesoft.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import apps.inets.com.shulesoft.R;
+import apps.inets.com.shulesoft.adapters.MyViewPagerAdapter;
 
 public class FeatureActivity extends AppCompatActivity {
 
@@ -41,7 +37,7 @@ public class FeatureActivity extends AppCompatActivity {
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
-    private int[] layouts;
+    private int[] images, texts;
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
     private RequestQueue mRequestQueue;
@@ -74,17 +70,10 @@ public class FeatureActivity extends AppCompatActivity {
 
         // layouts of all welcome sliders
         // add few more layouts if you want
-                layouts = new int[]{
-                R.layout.screen_one,
-                R.layout.screen_two,
-                R.layout.screen_three,
-                R.layout.screen_four};
+                images = new int[]{
+                        R.drawable.exam_reports,R.drawable.accounting,R.drawable.mobile_payment,R.drawable.free_sms};
+                texts = new int[] {R.string.exam_reports,R.string.accounting,R.string.mobile_payments,R.string.free_sms};
 
-//        layouts = new int[]{
-//                R.layout.screen_one,
-//                R.layout.screen_two,
-//                R.layout.screen_three,
-//                R.layout.screen_four};
 
         // adding bottom dots
         addBottomDots(0);
@@ -92,7 +81,7 @@ public class FeatureActivity extends AppCompatActivity {
         // making notification bar transparent
         changeStatusBarColor();
 
-        myViewPagerAdapter = new MyViewPagerAdapter();
+        myViewPagerAdapter = new MyViewPagerAdapter(this,images,texts);
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -120,18 +109,11 @@ public class FeatureActivity extends AppCompatActivity {
         makeHttpRequest();
     }
 
-    /*changes the text and image of the changing feature*/
-    private void changeTextAndImage(){
-
-    }
 
     /*post - adding bottom dots to the bottom of a swipe page
     * corresponding to the current page selected*/
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.length];
-
-        int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
-        int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
+        dots = new TextView[images.length];
 
         dotsLayout.removeAllViews();
 
@@ -165,7 +147,7 @@ public class FeatureActivity extends AppCompatActivity {
             addBottomDots(position);
 
             // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts.length - 1) {
+            if (position == images.length - 1) {
                 // last page. make button text to GOT IT
                 btnGotIt.setVisibility(View.VISIBLE);
                 btnSkip.setVisibility(View.GONE);
@@ -195,53 +177,6 @@ public class FeatureActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-        }
-    }
-
-
-
-    /**
-     * View pager adapter to change the pages as one slides across
-     */
-    public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-
-        public MyViewPagerAdapter() {
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            //testing
-            //View view = layoutInflater.inflate(layouts[R.layout.screen_one], container, false);
-
-//            ImageView featuresImage = findViewById(R.id.image_feature);
-//            TextView featuresText = findViewById(R.id.features_text);
-//            featuresImage.setImageResource(R.drawable.free_sms);
-//            featuresText.setText(R.string.free_sms);
-
-            View view = layoutInflater.inflate(layouts[position], container, false);
-            container.addView(view);
-
-            return view;
-        }
-
-        @Override
-        public int getCount() {
-            return layouts.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
         }
     }
 
