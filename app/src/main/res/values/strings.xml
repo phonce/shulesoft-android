@@ -8,14 +8,14 @@
     <string name="mobile_payments_header">Mobile Payments</string>
     <string name="next">SKIP</string>
     <string name="start">GOT IT</string>
-    <string name="exam_reports">As a teacher or school staff, create and edit students\' academic reports in under 5 minutes by just inputting students\' examination scores.
-        As a parent, be up to date with your child\'s academic progress by viewing the examination reports and progress charts of your child.
-        An finally as a student, stay in tune with your progress by viewing examination reports and progress charts with comments from teachers with what needs improvements for you to do better.</string>
-    <string name="accounting">As a school, easily manage and keep track of school\'s financial records such as expenses and revenue. Instantly create financial statements from
-    such as the balance sheet and income statement from the inputted data while easily managing things like fees collection from parents.</string>
-    <string name="free_sms">Get notified when any change is made to your account. As the school administration, easily send custom emails and free sms to parents, students or teachers concerning different issues such as meetings,
-    unpaid or paid fees and many others. As parents and students, get easily notified over SMS or email on what is going on at school.</string>
-    <string name="mobile_payments">Easily pay(parents) and receive payments(schools) via mobile payment systems such m-pesa, airtel money and tigo-pesa without having
+    <string name="exam_reports">Create and edit students\' academic reports in under 5 minutes by just inputting students\' examination scores.
+        Be up to date with your own or your child\'s academic progress by viewing examination reports and progress charts with comments
+        from teachers about what needs improvement.</string>
+    <string name="accounting">Easily manage and keep track of school\'s financial records such as expenses and revenue. Instantly create financial statements
+        such as the balance sheet and the income statement from the inputted data while efficiently handling things such as fees collection from parents.</string>
+    <string name="free_sms">Get notified when any change is made to your account. Send custom emails and free sms to parents, students or teachers concerning different issues such as meetings,
+    unpaid or paid fees and other things happening at school.</string>
+    <string name="mobile_payments">Easily pay and receive payments via mobile payment systems such as m-pesa, airtel money and tigo-pesa without having
     to take payment slips to school for verification.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -37,6 +37,9 @@
         completions."
     </string>
     <string name="select_school_hint">Select School</string>
+    <string name ="loading">Loading...</string>
+    <string name="slow_interent">No or Slow Internet Connection!</string>
+    <string name="initializing">Initializing. Please wait ...</string>
     <string name="no_Internet_Connection">There is no Internet connection</string>
     <string name="select_school_below">Select your School from the dropdown below</string>
     <string name="request_new_password">Click to change password</string>

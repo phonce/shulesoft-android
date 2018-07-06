@@ -5,21 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 
 
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
+
+import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import android.net.http.*;
 
 import apps.inets.com.shulesoft.R;
 
@@ -40,15 +42,22 @@ public class WebViewActivity extends AppCompatActivity {
         String schoolName = intent.getStringExtra("School");
         String url = "https://" + schoolName + FINAL_URL;
 
-
+        TextView noInternet = findViewById(R.id.noInternet_text_view);
         webView = findViewById(R.id.webview);
-        startWebView(url);
+        if(!isNetworkAvailable()){
+            noInternet.setVisibility(View.VISIBLE);
+        }else{
+            noInternet.setVisibility(View.GONE);
+            startWebView(url);
+
+        }
 
     }
 
     /**
      * Configures the webview
-     * @param url
+     *
+     * @param url to be viewed
      */
 
     private void startWebView(final String url) {
@@ -73,33 +82,28 @@ public class WebViewActivity extends AppCompatActivity {
                 view.loadUrl(url);
                 return true;
             }
-            //Show loader on url load
-            public void onLoadResource (WebView view, String url) {
-                if (progressDialog == null) {
-                    // in standard case YourActivity.this
-                    progressDialog = new ProgressDialog(WebViewActivity.this);
-                    progressDialog.setMessage("Loading...");
-                    progressDialog.show();
 
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(WebViewActivity.this);
+                    progressDialog.setMessage(getResources().getString(R.string.loading));
+                    progressDialog.setIndeterminate(true);
                 }
+                if(!progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
+
             }
+
 
             public void onPageFinished(WebView view, String url) {
-                progressDialog.dismiss();
-//                try{
-//                    if (progressDialog.isShowing()) {
-//                        progressDialog.dismiss();
-//                        progressDialog = null;
-//                    }else{
-//                        Log.v("Dialog", "error2");
-//                    }
-//                }catch(Exception exception){
-//                    exception.printStackTrace();
-//                    Log.v("Dialog", "error");
-//                }
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
             }
         });
-
 
         //Loads the URL if network is available
         TextView noInternet = findViewById(R.id.noInternet_text_view);
@@ -112,7 +116,7 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     /**
-     * Open previous opened link from history on webview when back button pressed
+     * Opens previous opened link in Webview when back button pressed or goes back to previous activity
      */
     @Override
     // Detect when the back button is pressed
@@ -125,6 +129,7 @@ public class WebViewActivity extends AppCompatActivity {
         }
 
     }
+
     /**
      * Checks if network connection is available
      */
@@ -132,6 +137,7 @@ public class WebViewActivity extends AppCompatActivity {
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }

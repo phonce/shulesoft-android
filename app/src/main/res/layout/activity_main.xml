@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1abc9c"
+    android:background="@color/white"
     tools:context=".activities.MainActivity">
 
     <LinearLayout
@@ -15,34 +15,27 @@
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Shule"
-            android:textSize="36sp"
-            android:fontFamily="@font/rosario_regular"
-            android:textColor="@android:color/black"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/rosario_regular"
-            android:text="Soft"
-            android:textSize="36sp"
-            android:textColor="@android:color/white"/>
+            android:src="@drawable/shule_soft_logo" />
 
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/initializing_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:textStyle="normal"
+        android:textColor="#14a895"
+        android:textSize="22sp"
+        tools:text="Initializing. Please wait ..."
+        android:text="@string/initializing"
+        style="bold"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="86dp"
-        android:text="Button"
-        android:onClick="openFeatureActivity"/>
+        android:layout_below="@id/linearLayout"
+        />
 
 
 </RelativeLayout>

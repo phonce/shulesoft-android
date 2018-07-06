@@ -1,13 +1,10 @@
 package apps.inets.com.shulesoft.extras;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
  * Created by Lincoln on 05/05/16.
- *
- * not really used now
  */
 public class PrefManager {
     SharedPreferences pref;

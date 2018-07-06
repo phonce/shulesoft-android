@@ -1,9 +1,12 @@
 package apps.inets.com.shulesoft.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -27,32 +30,37 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import apps.inets.com.shulesoft.R;
 import apps.inets.com.shulesoft.adapters.MyViewPagerAdapter;
+import apps.inets.com.shulesoft.extras.PrefManager;
 
 public class FeatureActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
+    private PrefManager prefManager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] images, texts;
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
-    private RequestQueue mRequestQueue;
 
     /**/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // // Checking for first time launch - before calling setContentView()
-        // prefManager = new PrefManager(this);
-        // if (!prefManager.isFirstTimeLaunch()) {
-        //     launchHomeScreen();
-        //     finish();
-        // }
+        mSchools = (ArrayList<String>) getIntent().getExtras().get("Schools");
+
+        // Checking for first time launch - before calling setContentView()
+        prefManager = new PrefManager(this);
+        if (prefManager.isFirstTimeLaunch()) {
+            launchSearchScreen();
+            finish();
+        }
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -67,9 +75,7 @@ public class FeatureActivity extends AppCompatActivity {
         btnGotIt = (Button) findViewById(R.id.btn_got_it);
         btnGotIt.setVisibility(View.GONE);
 
-
-        // layouts of all welcome sliders
-        // add few more layouts if you want
+                //images and texts of the sliding pages
                 images = new int[]{
                         R.drawable.exam_reports,R.drawable.accounting,R.drawable.mobile_payment,R.drawable.free_sms};
                 texts = new int[] {R.string.exam_reports,R.string.accounting,R.string.mobile_payments,R.string.free_sms};
@@ -88,27 +94,17 @@ public class FeatureActivity extends AppCompatActivity {
          btnSkip.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 Intent intent = new Intent(FeatureActivity.this,SchoolSearchActivity.class);
-                 intent.putExtra("Schools",mSchools);
-                 startActivity(intent);
+                 launchSearchScreen();
              }
          });
 
          btnGotIt.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 Intent intent = new Intent(FeatureActivity.this,SchoolSearchActivity.class);
-                 intent.putExtra("Schools",mSchools);
-                 startActivity(intent);
+                 launchSearchScreen();
              }
          });
-
-
-        mRequestQueue = Volley.newRequestQueue(this);
-        mSchools = new ArrayList<String>();
-        makeHttpRequest();
     }
-
 
     /*post - adding bottom dots to the bottom of a swipe page
     * corresponding to the current page selected*/
@@ -129,15 +125,19 @@ public class FeatureActivity extends AppCompatActivity {
             dots[currentPage].setTextColor(getResources().getColor(R.color.white));
     }
 
+    //gets the current viewPager item
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
     }
 
-    // private void launchHomeScreen() {
-    //     prefManager.setFirstTimeLaunch(false);
-    //     startActivity(new Intent(FeatureActivity.this, MainActivity.class));
-    //     finish();
-    // }
+     //starts the school searching activity
+     private void launchSearchScreen() {
+         prefManager.setFirstTimeLaunch(false);
+         Intent intent = new Intent(FeatureActivity.this,SchoolSearchActivity.class);
+         intent.putExtra("Schools",mSchools);
+         startActivity(intent);
+         finish();
+     }
 
     //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -180,48 +180,11 @@ public class FeatureActivity extends AppCompatActivity {
         }
     }
 
-
-    /**
-     * Makes a network request to return the list of schools
-     */
-    public void makeHttpRequest() {
-        String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject school = response.getJSONObject(i);
-                        String name = school.getString("table_schema");
-                        mSchools.add(name);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Log.v("Response", "There is a response");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v("SERVER ERROR", error.toString());
-            }
-        });
-        mRequestQueue.add(jsonArrayRequest);
-
-    }
-
-    public RequestQueue getRequestQueue() {
-        return mRequestQueue;
-    }
-
-    /**
-     * Ensures that pressing the back button opens splash screnn not SchoolSearchActivity
-     */
-
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this,MainActivity.class));
     }
 }
+
+
 
