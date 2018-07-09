@@ -126,6 +126,7 @@ public class WebViewActivity extends AppCompatActivity {
         } else {
             // Let the system handle the back button
             super.onBackPressed();
+            
         }
 
     }

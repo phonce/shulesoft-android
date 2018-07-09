@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        makeHttpRequest();
+
         mRequestQueue = Volley.newRequestQueue(this);
-        mSchools = new ArrayList<>();
+        mSchools = new ArrayList<String>();
 
 
-
+        makeHttpRequest();
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
 
@@ -58,14 +58,12 @@ public class MainActivity extends AppCompatActivity {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.v("URL","METHOD CALLED");
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject school = response.getJSONObject(i);
                         String name = school.getString("table_schema");
                         mSchools.add(name);
                         openFeatureActivity();
-                        Log.v("REQ","request made");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -81,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
         mRequestQueue.add(jsonArrayRequest);
     }
 
+    public RequestQueue getRequestQueue() {
+        return mRequestQueue;
+    }
+
     /**
      * Opens FeatureActivity
      */
@@ -91,16 +93,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
+/*    *//**
      * Exits the application when the back button is pressed
-     */
+     *//*
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
         this.finishAffinity();
         System.exit(0);
-    }
+    }*/
 
 
 }
+
