@@ -57,7 +57,7 @@ public class FeatureActivity extends AppCompatActivity {
 
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
+        if (prefManager.isFirstTimeLaunch()) {
             launchSearchScreen();
             finish();
         }
