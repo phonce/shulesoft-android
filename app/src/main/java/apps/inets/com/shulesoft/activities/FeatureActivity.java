@@ -1,5 +1,6 @@
 package apps.inets.com.shulesoft.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -39,6 +40,7 @@ import apps.inets.com.shulesoft.extras.PrefManager;
 
 public class FeatureActivity extends AppCompatActivity {
 
+
     private ViewPager viewPager;
     private PrefManager prefManager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -47,6 +49,8 @@ public class FeatureActivity extends AppCompatActivity {
     private int[] images, texts;
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
+    private Boolean firstTime = null;
+
 
     /**/
     @Override
@@ -55,13 +59,6 @@ public class FeatureActivity extends AppCompatActivity {
 
         mSchools = (ArrayList<String>) getIntent().getExtras().get("Schools");
 
-        // Checking for first time launch - before calling setContentView()
-        prefManager = new PrefManager(this);
-        if (prefManager.isFirstTimeLaunch()) {
-            launchSearchScreen();
-            finish();
-        }
-
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -69,16 +66,17 @@ public class FeatureActivity extends AppCompatActivity {
 
         setContentView(R.layout.swipe_screen);
 
+
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnGotIt = (Button) findViewById(R.id.btn_got_it);
         btnGotIt.setVisibility(View.GONE);
 
-                //images and texts of the sliding pages
-                images = new int[]{
-                        R.drawable.exam_reports,R.drawable.accounting,R.drawable.mobile_payment,R.drawable.free_sms};
-                texts = new int[] {R.string.exam_reports,R.string.accounting,R.string.mobile_payments,R.string.free_sms};
+        //images and texts of the sliding pages
+        images = new int[]{
+                R.drawable.exam_reports, R.drawable.accounting, R.drawable.mobile_payment, R.drawable.free_sms};
+        texts = new int[]{R.string.exam_reports, R.string.accounting, R.string.mobile_payments, R.string.free_sms};
 
 
         // adding bottom dots
@@ -87,27 +85,30 @@ public class FeatureActivity extends AppCompatActivity {
         // making notification bar transparent
         changeStatusBarColor();
 
-        myViewPagerAdapter = new MyViewPagerAdapter(this,images,texts);
+        myViewPagerAdapter = new MyViewPagerAdapter(this, images, texts);
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-         btnSkip.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 launchSearchScreen();
-             }
-         });
+        //Log.v("prefManager","first3  " + prefs.getBoolean("firstrun", true));
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSearchScreen();
+            }
+        });
 
-         btnGotIt.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 launchSearchScreen();
-             }
-         });
+        btnGotIt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSearchScreen();
+            }
+        });
+        //prefs.edit().putBoolean("firstrun", false).commit();
+
     }
 
     /*post - adding bottom dots to the bottom of a swipe page
-    * corresponding to the current page selected*/
+     * corresponding to the current page selected*/
     private void addBottomDots(int currentPage) {
         dots = new TextView[images.length];
 
@@ -130,14 +131,12 @@ public class FeatureActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-     //starts the school searching activity
-     private void launchSearchScreen() {
-         prefManager.setFirstTimeLaunch(false);
-         Intent intent = new Intent(FeatureActivity.this,SchoolSearchActivity.class);
-         intent.putExtra("Schools",mSchools);
-         startActivity(intent);
-         finish();
-     }
+    //starts the school searching activity
+    private void launchSearchScreen() {
+        Intent intent = new Intent(FeatureActivity.this, SchoolSearchActivity.class);
+        intent.putExtra("Schools", mSchools);
+        startActivity(intent);
+    }
 
     //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -182,7 +181,26 @@ public class FeatureActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    /**
+     * Checks if the user is opening the app for the first time.
+     * Note that this method should be placed inside an activity and it can be called multiple times.
+     *
+     * @return boolean
+     */
+    private boolean isFirstTime() {
+        if (firstTime == null) {
+            SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
+            firstTime = mPreferences.getBoolean("firstTime", true);
+            if (firstTime) {
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean("firstTime", false);
+                editor.commit();
+            }
+        }
+        return firstTime;
     }
 }
 

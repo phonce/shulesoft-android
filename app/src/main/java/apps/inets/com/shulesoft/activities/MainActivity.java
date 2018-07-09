@@ -1,6 +1,8 @@
 package apps.inets.com.shulesoft.activities;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -19,12 +21,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import apps.inets.com.shulesoft.R;
+import apps.inets.com.shulesoft.extras.PrefManager;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> mSchools;
     private RequestQueue mRequestQueue;
+    private Boolean firstTime = null;
 
 
     @Override
@@ -87,10 +91,19 @@ public class MainActivity extends AppCompatActivity {
      * Opens FeatureActivity
      */
     public void openFeatureActivity() {
-        Intent intent = new Intent
-                (this, FeatureActivity.class);
-        intent.putExtra("Schools",mSchools);
-        startActivity(intent);
+            if(isFirstTime()){
+                // Checking for first time launch - before calling setContentView()
+                Intent intent = new Intent
+                        (this, FeatureActivity.class);
+                intent.putExtra("Schools",mSchools);
+                startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent
+                        (this, SchoolSearchActivity.class);
+                intent.putExtra("Schools",mSchools);
+                startActivity(intent);
+            }
     }
 
     /**
@@ -104,5 +117,22 @@ public class MainActivity extends AppCompatActivity {
         System.exit(0);
     }
 
-
+    /**
+     * Checks if the user is opening the app for the first time.
+     * Note that this method should be placed inside an activity and it can be called multiple times.
+     * @return boolean
+     */
+    private boolean isFirstTime() {
+        if (firstTime == null) {
+            SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
+            firstTime = mPreferences.getBoolean("firstTime", true);
+            if (firstTime) {
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean("firstTime", false);
+                editor.commit();
+            }
+        }
+        return firstTime;
+    }
+    
 }
