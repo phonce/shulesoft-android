@@ -118,7 +118,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
         Restarts the school search activity when the back button is pressed
      */
     @Override

@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mRequestQueue = Volley.newRequestQueue(this);
-        mSchools = new ArrayList<String>();
-
-
         makeHttpRequest();
+        mRequestQueue = Volley.newRequestQueue(this);
+        mSchools = new ArrayList<>();
+
+
+
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(getResources().getString(R.string.slow_interent));
             }
 
-        }, 4000L);
+        }, 20000L);
     }
 
     /**
@@ -58,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                Log.v("URL","METHOD CALLED");
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject school = response.getJSONObject(i);
                         String name = school.getString("table_schema");
                         mSchools.add(name);
                         openFeatureActivity();
+                        Log.v("REQ","request made");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -77,10 +79,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mRequestQueue.add(jsonArrayRequest);
-    }
-
-    public RequestQueue getRequestQueue() {
-        return mRequestQueue;
     }
 
     /**
