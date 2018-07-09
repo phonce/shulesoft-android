@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/colorPrimaryDark"
     tools:context=".activities.MainActivity">
 
     <LinearLayout
@@ -23,19 +23,25 @@
 
 
     </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/white">
     <TextView
         android:id="@+id/initializing_text_view"
+        style="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="normal"
-        android:textColor="#14a895"
-        android:textSize="22sp"
-        tools:text="Initializing. Please wait ..."
-        android:text="@string/initializing"
-        style="bold"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/linearLayout"
-        />
+        android:text="@string/initializing"
+        android:layout_centerVertical="true"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="22sp"
+        android:textStyle="normal"
+        tools:text="Initializing. Please wait ..." />
+
+</RelativeLayout>
 
 
 </RelativeLayout>

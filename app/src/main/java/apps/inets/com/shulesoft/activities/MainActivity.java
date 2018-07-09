@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(getResources().getString(R.string.slow_interent));
             }
 
-        }, 4000L);
+        }, 20000L);
     }
 
     /**
@@ -106,16 +106,16 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-    /**
+/*    *//**
      * Exits the application when the back button is pressed
-     */
+     *//*
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
         this.finishAffinity();
         System.exit(0);
-    }
+    }*/
 
     /**
      * Checks if the user is opening the app for the first time.
@@ -134,5 +134,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return firstTime;
     }
-    
 }
+

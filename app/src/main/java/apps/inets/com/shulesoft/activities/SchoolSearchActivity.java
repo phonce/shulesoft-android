@@ -106,9 +106,14 @@ public class SchoolSearchActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-
-
-
+    /*post-closes the application down the back button is pressed
+    * */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
+        this.finish();
+    }
 
 }
 
