@@ -1,57 +1,42 @@
 package apps.inets.com.shulesoft.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import apps.inets.com.shulesoft.R;
 import apps.inets.com.shulesoft.adapters.MyViewPagerAdapter;
-import apps.inets.com.shulesoft.extras.PrefManager;
+
 
 public class FeatureActivity extends AppCompatActivity {
 
-
     private ViewPager viewPager;
-    private PrefManager prefManager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] images, texts;
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
-    private Boolean firstTime = null;
-
 
     /**/
     @Override
@@ -66,7 +51,8 @@ public class FeatureActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.swipe_screen);
-
+      //ImageView backGround = findViewById(R.id.image_holder_one);
+       // backGround.setImageBitmap(getBitmap(this, R.drawable.backdrop));
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -108,8 +94,27 @@ public class FeatureActivity extends AppCompatActivity {
 
     }
 
-    /*post - adding bottom dots to the bottom of a swipe page
-     * corresponding to the current page selected*/
+    /**
+     * Returns a scalable bitmap of the imageId passed in
+     *
+     * @param context
+     * @param drawableId
+     * @return
+     */
+
+    @SuppressLint("NewApi")
+    public Bitmap getBitmap(Context context, int drawableId) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
+        return Bitmap.createScaledBitmap(bitmap, width, height, true);
+
+    }
+
+    /**
+     * Adds bottom dots to the bottom of a swipe page
+     * corresponding to the current page selected
+     */
     private void addBottomDots(int currentPage) {
         dots = new TextView[images.length];
 
@@ -132,7 +137,7 @@ public class FeatureActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-    //starts the school searching activity
+    //starts the SchoolSearchActivity
     private void launchSearchScreen() {
         Intent intent = new Intent(FeatureActivity.this, SchoolSearchActivity.class);
         intent.putExtra("Schools", mSchools);

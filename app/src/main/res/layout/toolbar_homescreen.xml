@@ -59,7 +59,7 @@
         android:layout_weight="1"
         android:layout_gravity="right"
         android:elevation="5dp"
-        android:src="@drawable/unnamed2"
+        android:src="@drawable/backdrop"
         app:civ_border_color="@null"
         app:civ_border_width="0dp" />
 

@@ -1,14 +1,12 @@
 package apps.inets.com.shulesoft.activities;
 
-import android.annotation.TargetApi;
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,7 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import apps.inets.com.shulesoft.R;
-import apps.inets.com.shulesoft.extras.PrefManager;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private Boolean firstTime = null;
 
+    private static final  String SCHOOLS = "Schools";
+    private static final String FIRST_TIME_PREF_KEY = "firstTime";
+    private static final String IS_FIRST_TIME_PREF = "first_time";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRequestQueue = Volley.newRequestQueue(this);
-        mSchools = new ArrayList<String>();
+        mSchools = new ArrayList<>();
 
 
         makeHttpRequest();
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(getResources().getString(R.string.slow_interent));
             }
 
-        }, 20000L);
+        }, 60000L);
     }
 
     /**
@@ -72,64 +74,52 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                Log.v("Response", "There is a response");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("SERVER ERROR", error.toString());
             }
         });
         mRequestQueue.add(jsonArrayRequest);
     }
 
-    public RequestQueue getRequestQueue() {
+   /* public RequestQueue getRequestQueue() {
         return mRequestQueue;
-    }
+    }*/
 
     /**
      * Opens FeatureActivity
      */
     public void openFeatureActivity() {
-            if(isFirstTime()){
+        //Opens FeatureActivity if its the first run since Installation
+            //if(isFirstTime()){
                 // Checking for first time launch - before calling setContentView()
                 Intent intent = new Intent
                         (this, FeatureActivity.class);
-                intent.putExtra("Schools",mSchools);
+                intent.putExtra(SCHOOLS,mSchools);
                 startActivity(intent);
-            }
-            else{
-                Intent intent = new Intent
-                        (this, SchoolSearchActivity.class);
-                intent.putExtra("Schools",mSchools);
-                startActivity(intent);
-            }
+//            }
+//        //Opens SchoolSearchActivity if its not the first run
+//            else{
+//                Intent intent = new Intent
+//                        (this, SchoolSearchActivity.class);
+//                intent.putExtra(SCHOOLS,mSchools);
+//                startActivity(intent);
+//            }
     }
 
-/*    *//**
-     * Exits the application when the back button is pressed
-     *//*
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onBackPressed() {
-        this.finishAffinity();
-        System.exit(0);
-    }*/
 
     /**
      * Checks if the user is opening the app for the first time.
-     * Note that this method should be placed inside an activity and it can be called multiple times.
-     * @return boolean
      */
     private boolean isFirstTime() {
         if (firstTime == null) {
-            SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
-            firstTime = mPreferences.getBoolean("firstTime", true);
+            SharedPreferences mPreferences = this.getSharedPreferences(IS_FIRST_TIME_PREF, Context.MODE_PRIVATE);
+            firstTime = mPreferences.getBoolean(FIRST_TIME_PREF_KEY, true);
             if (firstTime) {
                 SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putBoolean("firstTime", false);
-                editor.commit();
+                editor.putBoolean(FIRST_TIME_PREF_KEY, false);
+                editor.apply();
             }
         }
         return firstTime;
