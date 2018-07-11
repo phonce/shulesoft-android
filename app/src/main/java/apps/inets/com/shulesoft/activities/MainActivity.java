@@ -91,19 +91,19 @@ public class MainActivity extends AppCompatActivity {
      * Opens FeatureActivity
      */
     public void openFeatureActivity() {
-            if(isFirstTime()){
+            //if(isFirstTime()){
                 // Checking for first time launch - before calling setContentView()
                 Intent intent = new Intent
                         (this, FeatureActivity.class);
                 intent.putExtra("Schools",mSchools);
                 startActivity(intent);
-            }
-            else{
-                Intent intent = new Intent
-                        (this, SchoolSearchActivity.class);
-                intent.putExtra("Schools",mSchools);
-                startActivity(intent);
-            }
+//            }
+//            else{
+//                Intent intent = new Intent
+//                        (this, SchoolSearchActivity.class);
+//                intent.putExtra("Schools",mSchools);
+//                startActivity(intent);
+//            }
     }
 
 /*    *//**
