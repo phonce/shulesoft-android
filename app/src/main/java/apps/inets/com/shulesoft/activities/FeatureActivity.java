@@ -34,7 +34,7 @@ public class FeatureActivity extends AppCompatActivity {
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
-    private int[] images, texts;
+    private int[] images, texts, layouts;
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
 
@@ -60,9 +60,9 @@ public class FeatureActivity extends AppCompatActivity {
         btnGotIt = (Button) findViewById(R.id.btn_got_it);
         btnGotIt.setVisibility(View.GONE);
 
-        //images and texts of the sliding pages
-        images = new int[]{
-                R.drawable.exam_reports, R.drawable.accounting, R.drawable.mobile_payment, R.drawable.free_sms};
+
+      images = new int[]{
+             R.drawable.exam_reports, R.drawable.accounting, R.drawable.mobile_payment, R.drawable.free_sms};
         texts = new int[]{R.string.exam_reports, R.string.accounting, R.string.mobile_payments, R.string.free_sms};
 
 

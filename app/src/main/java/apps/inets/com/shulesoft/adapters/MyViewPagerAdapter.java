@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +61,9 @@ public class MyViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+        ViewPager vp = (ViewPager) container;
         View view = (View) object;
-        container.removeView(view);
+        vp.removeView(view);
     }
 
     public Bitmap getBitmap(Context context, int drawableId){

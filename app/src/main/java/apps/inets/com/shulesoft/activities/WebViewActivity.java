@@ -70,8 +70,11 @@ public class WebViewActivity extends AppCompatActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                if( url.startsWith("http:") || url.startsWith("https:") ) {
+                    return false;
+                }
                 return true;
+//
             }
 
             @Override
