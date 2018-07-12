@@ -1,45 +1,67 @@
 package apps.inets.com.shulesoft.activities;
 
-import android.annotation.TargetApi;
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 import apps.inets.com.shulesoft.R;
-import apps.inets.com.shulesoft.extras.PrefManager;
+import apps.inets.com.shulesoft.extras.ConnectionService;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ConnectionService.ConnectionServiceCallback {
 
     private ArrayList<String> mSchools;
     private RequestQueue mRequestQueue;
     private Boolean firstTime = null;
+
+    private static final String SCHOOLS = "Schools";
+    private static final String FIRST_TIME_PREF_KEY = "firstTime";
+    private static final String IS_FIRST_TIME_PREF = "first_time";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startConnectionService();
+
 
         mRequestQueue = Volley.newRequestQueue(this);
-        mSchools = new ArrayList<String>();
+        mSchools = new ArrayList<>();
+        Log.v("HAHA", "jahha"); //Log.v("hahhah","jahha");
 
+        /**hasInternetConnection();
+         hasNoInternetConnection();
 
+         /**
+         if(thereIsInternetConnection){
+         makeHttpRequest();
+
+         }
+         if(!thereIsInternetConnection){
+         TextView textView = findViewById(R.id.initializing_text_view);
+         textView.setText(getResources().getString(R.string.no_Internet_Connection));
+         }
+         */
         makeHttpRequest();
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
@@ -50,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(getResources().getString(R.string.slow_interent));
             }
 
-        }, 20000L);
+        }, 60000L);
     }
 
     /**
@@ -72,67 +94,85 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                Log.v("Response", "There is a response");
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("SERVER ERROR", error.toString());
             }
         });
         mRequestQueue.add(jsonArrayRequest);
     }
 
-    public RequestQueue getRequestQueue() {
+   /* public RequestQueue getRequestQueue() {
         return mRequestQueue;
-    }
+    }*/
 
     /**
      * Opens FeatureActivity
      */
     public void openFeatureActivity() {
-            //if(isFirstTime()){
-                // Checking for first time launch - before calling setContentView()
-                Intent intent = new Intent
-                        (this, FeatureActivity.class);
-                intent.putExtra("Schools",mSchools);
-                startActivity(intent);
-//            }
-//            else{
-//                Intent intent = new Intent
-//                        (this, SchoolSearchActivity.class);
-//                intent.putExtra("Schools",mSchools);
-//                startActivity(intent);
-//            }
+        stopService(new Intent(this, ConnectionService.class));
+        if (isFirstTime()) {
+            // Checking for first time launch - before calling setContentView()
+            Intent intent = new Intent
+                    (this, FeatureActivity.class);
+            intent.putExtra(SCHOOLS, mSchools);
+            startActivity(intent);
+            return;
+        }
+        Intent intent = new Intent(this, SchoolSearchActivity.class);
+        intent.putExtra("Schools", mSchools);
+        startActivity(intent);
     }
 
-/*    *//**
-     * Exits the application when the back button is pressed
-     *//*
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onBackPressed() {
-        this.finishAffinity();
-        System.exit(0);
-    }*/
 
     /**
      * Checks if the user is opening the app for the first time.
-     * Note that this method should be placed inside an activity and it can be called multiple times.
-     * @return boolean
      */
     private boolean isFirstTime() {
         if (firstTime == null) {
-            SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
-            firstTime = mPreferences.getBoolean("firstTime", true);
+            SharedPreferences mPreferences = this.getSharedPreferences(IS_FIRST_TIME_PREF, Context.MODE_PRIVATE);
+            firstTime = mPreferences.getBoolean(FIRST_TIME_PREF_KEY, true);
             if (firstTime) {
                 SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putBoolean("firstTime", false);
-                editor.commit();
+                editor.putBoolean(FIRST_TIME_PREF_KEY, false);
+                editor.apply();
             }
         }
         return firstTime;
+    }
+
+    /**
+     * Starts the connection service
+     */
+    public void startConnectionService() {
+        Intent intent = new Intent(this, ConnectionService.class);
+        // Interval in seconds
+        intent.putExtra(ConnectionService.TAG_INTERVAL, 2);
+        // URL to ping
+        intent.putExtra(ConnectionService.TAG_URL_PING, "http://158.69.112.216:8081/api/getSchools");
+        // Name of the class that is calling this service
+        intent.putExtra(ConnectionService.TAG_ACTIVITY_NAME, MainActivity.class);
+        // Starts the service
+        startService(intent);
+    }
+
+    /**
+     * When there is internet connection
+     */
+    @Override
+    public void hasInternetConnection() {
+        makeHttpRequest();
+        Log.v("HAS_INTERNET", "jahha");
+    }
+
+    /**
+     * When there is no Internet connection
+     */
+    @Override
+    public void hasNoInternetConnection() {
+        TextView textView = findViewById(R.id.initializing_text_view);
+        textView.setText(getResources().getString(R.string.no_Internet_Connection));
     }
 }
 
