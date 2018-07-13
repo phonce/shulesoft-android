@@ -28,6 +28,7 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:background="@color/white">
+
     <TextView
         android:id="@+id/initializing_text_view"
         style="bold"

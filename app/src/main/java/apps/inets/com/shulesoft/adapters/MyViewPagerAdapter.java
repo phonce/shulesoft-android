@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import apps.inets.com.shulesoft.R;
 import apps.inets.com.shulesoft.activities.FeatureActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * View pager adapter to change the pages as one slides across
@@ -21,14 +22,15 @@ import apps.inets.com.shulesoft.activities.FeatureActivity;
 public class MyViewPagerAdapter extends PagerAdapter {
     private Context mContext;
     LayoutInflater mLayoutInflater;
-    private int[] mImages, mTexts;
+    private int[] mImages, mTexts, mHeaders;
 
 
-    public MyViewPagerAdapter(Context context, int[] images, int[] texts) {
+    public MyViewPagerAdapter(Context context, int[] images, int[] texts, int[] headers) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mImages = images;
         mTexts = texts;
+        mHeaders = headers;
     }
 
 
@@ -39,10 +41,13 @@ public class MyViewPagerAdapter extends PagerAdapter {
 
         View view = mLayoutInflater.inflate(R.layout.screen_one, container, false);
         ImageView imageView = view.findViewById(R.id.image_feature);
-        //imageView.setImageResource(mImages[position]);//mResources[position]
-        imageView.setImageBitmap(getBitmap(mContext,mImages[position]));
+        imageView.setImageResource(mImages[position]);
         TextView featuresText = view.findViewById(R.id.features_text);
         featuresText.setText(mTexts[position]);
+        TextView headersText = view.findViewById(R.id.features_header);
+        headersText.setText(mHeaders[position]);
+
+
 
         container.addView(view);
         return view;
@@ -64,14 +69,5 @@ public class MyViewPagerAdapter extends PagerAdapter {
         ViewPager vp = (ViewPager) container;
         View view = (View) object;
         vp.removeView(view);
-    }
-
-    public Bitmap getBitmap(Context context, int drawableId){
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
-       return  Bitmap.createScaledBitmap(bitmap, width, height, true);
-        //BitmapDrawable bitmapDrawable = new BitmapDrawable(context.getResources(), bitmap);
-        ///view.setBackground(bitmapDrawable);
     }
 }

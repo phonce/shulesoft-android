@@ -28,12 +28,14 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@null"
-        android:text="Skip"
-        android:textSize="22dp"
+        android:text="@string/skip"
+        android:textSize="16sp"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        android:drawableRight="@drawable/ic_arrow_forward"
+        android:drawableRight="@drawable/arrow_right"
+        android:drawableTint="@color/black"
         android:drawablePadding="0dp"
+        android:paddingTop="5dp"
         />
 
     <Button
@@ -43,9 +45,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="@null"
-        android:text="Got it"
-        android:textSize="22dp"
+        android:text="@string/gotit"
+        android:textSize="16sp"
         android:textAllCaps="true"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:paddingTop="5dp"/>
 
 </RelativeLayout>

@@ -12,32 +12,38 @@
      android:layout_weight="4">
 
      <ImageView
-         android:id="@+id/image_holder_one"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:scaleType="centerCrop"
-         android:src="@drawable/backdrop"
-         />
-
-     <ImageView
          android:id="@+id/image_feature"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp"
-         android:layout_marginTop="40dp"
-         android:scaleType="centerCrop"
+         android:layout_width="120dp"
+         android:layout_height="120dp"
+         android:layout_centerHorizontal="true"
+         android:layout_centerInParent="true"
          android:src="@drawable/exam_reports" />
+     
+     <ImageView
+         android:layout_width="1dp"
+         android:layout_height="0dp"
+         android:layout_centerHorizontal="true"
+         android:background="@color/white"
+         android:layout_below="@id/image_feature"
+         android:layout_alignParentBottom="true"
+         android:layout_marginTop="8dp"
+         android:layout_marginBottom="8dp"/>
+     
  </RelativeLayout>
+
         <android.support.v7.widget.CardView
             android:id="@+id/card_view_payments"
             android:layout_gravity="center"
             android:layout_width="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="48dp"
             android:layout_height="0dp"
             android:layout_weight="2.5"
             android:clipToPadding="false"
+            card_view:cardCornerRadius="4dp"
             card_view:cardBackgroundColor="@color/white"
-            card_view:cardElevation="40dp"
+            card_view:cardElevation="10dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,16 +51,32 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/features_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:text="@string/exam_reports_header"
+                    android:fontFamily="@font/rosario_regular"
+                    android:maxLines="1"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
                     android:id="@+id/features_text"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="4"
                     android:text="@string/exam_reports"
-                    android:padding="20dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
                     android:fontFamily="@font/rosario_regular"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="15sp"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 </LinearLayout>

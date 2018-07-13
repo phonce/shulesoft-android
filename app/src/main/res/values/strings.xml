@@ -2,6 +2,8 @@
     <string name="app_name">ShuleSoft</string>
     <string name="about_app">ShuleSoft is a cloud based management system for schools that aims to bring efficiency in
         management and interaction between students, teachers &amp; parents. \n\n\n www.shulesoft.com </string>
+    <string name="skip">Skip</string>
+    <string name="gotit">Got it</string>
     <string name="exam_reports_header">Exam Reports</string>
     <string name="accounting_header">Accounting</string>
     <string name="free_sms_header">Free Sms</string>

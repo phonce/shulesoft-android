@@ -34,7 +34,7 @@ public class FeatureActivity extends AppCompatActivity {
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
     private TextView[] dots;
-    private int[] images, texts, layouts;
+    private int[] images, feature_texts, layouts, feature_header;
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
 
@@ -51,8 +51,6 @@ public class FeatureActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.swipe_screen);
-      //ImageView backGround = findViewById(R.id.image_holder_one);
-       // backGround.setImageBitmap(getBitmap(this, R.drawable.backdrop));
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
@@ -63,8 +61,8 @@ public class FeatureActivity extends AppCompatActivity {
 
       images = new int[]{
              R.drawable.exam_reports, R.drawable.accounting, R.drawable.mobile_payment, R.drawable.free_sms};
-        texts = new int[]{R.string.exam_reports, R.string.accounting, R.string.mobile_payments, R.string.free_sms};
-
+      feature_texts = new int[]{R.string.exam_reports, R.string.accounting, R.string.mobile_payments, R.string.free_sms};
+      feature_header = new int[]{R.string.exam_reports_header,R.string.accounting_header,R.string.mobile_payments_header,R.string.free_sms_header};
 
         // adding bottom dots
         addBottomDots(0);
@@ -72,7 +70,7 @@ public class FeatureActivity extends AppCompatActivity {
         // making notification bar transparent
         changeStatusBarColor();
 
-        myViewPagerAdapter = new MyViewPagerAdapter(this, images, texts);
+        myViewPagerAdapter = new MyViewPagerAdapter(this, images, feature_texts, feature_header);
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
@@ -90,7 +88,6 @@ public class FeatureActivity extends AppCompatActivity {
                 launchSearchScreen();
             }
         });
-        //prefs.edit().putBoolean("firstrun", false).commit();
 
     }
 
