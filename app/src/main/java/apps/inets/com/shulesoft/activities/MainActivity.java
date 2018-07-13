@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -27,7 +26,7 @@ import apps.inets.com.shulesoft.R;
 import apps.inets.com.shulesoft.extras.ConnectionService;
 
 
-public class MainActivity extends AppCompatActivity implements ConnectionService.ConnectionServiceCallback {
+public class MainActivity extends AppCompatActivity  {
 
     private ArrayList<String> mSchools;
     private RequestQueue mRequestQueue;
@@ -42,26 +41,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionService
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startConnectionService();
+
 
 
         mRequestQueue = Volley.newRequestQueue(this);
         mSchools = new ArrayList<>();
-        Log.v("HAHA", "jahha"); //Log.v("hahhah","jahha");
 
-        /**hasInternetConnection();
-         hasNoInternetConnection();
 
-         /**
-         if(thereIsInternetConnection){
-         makeHttpRequest();
-
-         }
-         if(!thereIsInternetConnection){
-         TextView textView = findViewById(R.id.initializing_text_view);
-         textView.setText(getResources().getString(R.string.no_Internet_Connection));
-         }
-         */
         makeHttpRequest();
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
@@ -73,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionService
             }
 
         }, 60000L);
+        
     }
 
     /**
@@ -142,37 +129,39 @@ public class MainActivity extends AppCompatActivity implements ConnectionService
         return firstTime;
     }
 
-    /**
+
+   /* *//**
      * Starts the connection service
-     */
+     *//*
     public void startConnectionService() {
         Intent intent = new Intent(this, ConnectionService.class);
         // Interval in seconds
-        intent.putExtra(ConnectionService.TAG_INTERVAL, 2);
+        intent.putExtra(ConnectionService.TAG_INTERVAL, 20);
         // URL to ping
         intent.putExtra(ConnectionService.TAG_URL_PING, "http://158.69.112.216:8081/api/getSchools");
         // Name of the class that is calling this service
-        intent.putExtra(ConnectionService.TAG_ACTIVITY_NAME, MainActivity.class);
+        intent.putExtra(ConnectionService.TAG_ACTIVITY_NAME, this.getClass().getName());
         // Starts the service
         startService(intent);
     }
 
-    /**
+    *//**
      * When there is internet connection
-     */
+     *//*
     @Override
     public void hasInternetConnection() {
-        makeHttpRequest();
+        //makeHttpRequest();
         Log.v("HAS_INTERNET", "jahha");
     }
 
-    /**
+    *//**
      * When there is no Internet connection
-     */
+     *//*
     @Override
     public void hasNoInternetConnection() {
         TextView textView = findViewById(R.id.initializing_text_view);
         textView.setText(getResources().getString(R.string.no_Internet_Connection));
     }
+    */
 }
 

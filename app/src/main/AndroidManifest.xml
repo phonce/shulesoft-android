@@ -25,6 +25,7 @@
         <activity android:name=".activities.SchoolSearchActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.WebViewActivity"></activity>
+        <service android:name=".extras.ConnectionService"></service>
 
 
     </application>
