@@ -8,12 +8,15 @@ import android.net.NetworkInfo;
 import android.net.http.SslError;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+
+import java.util.HashMap;
 
 import apps.inets.com.shulesoft.R;
 
@@ -32,7 +35,10 @@ public class WebViewActivity extends AppCompatActivity {
 //        WebView webView = findViewById(R.id.webview);
         Intent intent = getIntent();
         String schoolName = intent.getStringExtra("School");
-        String url = "https://" + schoolName + FINAL_URL;
+        HashMap<String, String> schoolMaps = (HashMap<String, String>) intent.getSerializableExtra("SchoolMaps");
+
+        Log.v("Display",schoolName);
+        String url = "https://" + schoolMaps.get(schoolName) + FINAL_URL;
 
         TextView noInternet = findViewById(R.id.noInternet_text_view);
         webView = findViewById(R.id.webview);

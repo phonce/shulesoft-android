@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import apps.inets.com.shulesoft.R;
 import apps.inets.com.shulesoft.adapters.MyViewPagerAdapter;
@@ -37,13 +38,17 @@ public class FeatureActivity extends AppCompatActivity {
     private int[] images, feature_texts, layouts, feature_header;
     private Button btnSkip, btnGotIt;
     private ArrayList<String> mSchools;
+    private HashMap<String, String> schoolMaps;
 
     /**/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSchools = (ArrayList<String>) getIntent().getExtras().get("Schools");
+        Intent intent = getIntent();
+
+        schoolMaps = (HashMap<String, String>) intent.getSerializableExtra("Schools");
+
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -91,22 +96,6 @@ public class FeatureActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Returns a scalable bitmap of the imageId passed in
-     *
-     * @param context
-     * @param drawableId
-     * @return
-     */
-
-    @SuppressLint("NewApi")
-    public Bitmap getBitmap(Context context, int drawableId) {
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
-        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
-        return Bitmap.createScaledBitmap(bitmap, width, height, true);
-
-    }
 
     /**
      * Adds bottom dots to the bottom of a swipe page
@@ -137,7 +126,7 @@ public class FeatureActivity extends AppCompatActivity {
     //starts the SchoolSearchActivity
     private void launchSearchScreen() {
         Intent intent = new Intent(FeatureActivity.this, SchoolSearchActivity.class);
-        intent.putExtra("Schools", mSchools);
+        intent.putExtra("Schools", schoolMaps);
         startActivity(intent);
     }
 

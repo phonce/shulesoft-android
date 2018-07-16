@@ -16,6 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 import apps.inets.com.shulesoft.R;
@@ -28,6 +31,8 @@ import apps.inets.com.shulesoft.R;
 public class SchoolSearchActivity extends AppCompatActivity {
 
     private static final String SCHOOLS_LIST = "Schools";
+    private ArrayList<String> schoolNames;
+    private HashMap<String, String> schoolMaps;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -36,10 +41,15 @@ public class SchoolSearchActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_schools);
 
+        Intent intent = getIntent();
+        schoolMaps = (HashMap<String, String>) intent.getSerializableExtra("Schools");
 
-        Bundle bundle = getIntent().getExtras();
-
-        ArrayList<String> mSchools = (ArrayList<String>) bundle.get(SCHOOLS_LIST);
+        schoolNames = new ArrayList<String>();
+        Iterator it = schoolMaps.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            schoolNames.add((String) pair.getKey());
+        }
 
         //If there is no internet, display message
         TextView noInternet = findViewById(R.id.noInternet_text_view);
@@ -55,7 +65,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
         }
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.schools_list_item, mSchools);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.schools_list_item, schoolNames);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -67,6 +77,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
                 Intent webIntent = new Intent
                         (SchoolSearchActivity.this, WebViewActivity.class);
                 webIntent.putExtra("School", selectedSchool);
+                webIntent.putExtra("SchoolMaps", schoolMaps);
                 startActivity(webIntent);
             }
 

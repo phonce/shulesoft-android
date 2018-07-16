@@ -21,13 +21,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import apps.inets.com.shulesoft.R;
 import apps.inets.com.shulesoft.extras.ConnectionService;
 
 
 public class MainActivity extends AppCompatActivity  {
-
+    private HashMap<String, String> schoolMaps;
     private ArrayList<String> mSchools;
     private RequestQueue mRequestQueue;
     private Boolean firstTime = null;
@@ -43,9 +45,9 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
 
-
         mRequestQueue = Volley.newRequestQueue(this);
         mSchools = new ArrayList<>();
+        schoolMaps = new HashMap<String, String>();
 
 
         makeHttpRequest();
@@ -57,8 +59,7 @@ public class MainActivity extends AppCompatActivity  {
                 TextView textView = findViewById(R.id.initializing_text_view);
                 textView.setText(getResources().getString(R.string.slow_interent));
             }
-
-        }, 60000L);
+        }, 4000L);
         
     }
 
@@ -74,8 +75,9 @@ public class MainActivity extends AppCompatActivity  {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject school = response.getJSONObject(i);
-                        String name = school.getString("table_schema");
-                        mSchools.add(name);
+                        String name = school.getString("sname");
+                        String urlString = school.getString("table_schema");
+                        schoolMaps.put(name,urlString);
                         openFeatureActivity();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -103,12 +105,12 @@ public class MainActivity extends AppCompatActivity  {
             // Checking for first time launch - before calling setContentView()
             Intent intent = new Intent
                     (this, FeatureActivity.class);
-            intent.putExtra(SCHOOLS, mSchools);
+            intent.putExtra(SCHOOLS, schoolMaps);
             startActivity(intent);
             return;
         }
         Intent intent = new Intent(this, SchoolSearchActivity.class);
-        intent.putExtra("Schools", mSchools);
+        intent.putExtra("Schools", schoolMaps);
         startActivity(intent);
     }
 
