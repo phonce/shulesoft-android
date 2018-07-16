@@ -32,12 +32,10 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_webview);
 
         //Set up webview and load url of selected school
-//        WebView webView = findViewById(R.id.webview);
         Intent intent = getIntent();
         String schoolName = intent.getStringExtra("School");
         HashMap<String, String> schoolMaps = (HashMap<String, String>) intent.getSerializableExtra("SchoolMaps");
 
-        Log.v("Display",schoolName);
         String url = "https://" + schoolMaps.get(schoolName) + FINAL_URL;
 
         TextView noInternet = findViewById(R.id.noInternet_text_view);
@@ -80,7 +78,7 @@ public class WebViewActivity extends AppCompatActivity {
                     return false;
                 }
                 return true;
-//
+
             }
 
             @Override
