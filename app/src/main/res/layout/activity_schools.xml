@@ -1,52 +1,23 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/search_layout"
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-
-        <TextView
-            android:id="@+id/select_school_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/rosario_regular"
-            android:paddingBottom="16dp"
-            android:text="@string/select_school_below"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            tools:text="Select your school from the dropdown below" />
-
-
-        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-            android:id="@+id/spinner_search"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/spinner_backgroud"
-            android:dropDownVerticalOffset="20dp"
-            android:popupBackground="@color/spinner_backgroud"
-            app:hintText="@string/select_school_hint" />
-
-    </LinearLayout>
-    <TextView
-        android:id="@+id/noInternet_text_view"
+    <EditText
+        android:id="@+id/search_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/rosario_regular"
-        android:gravity="center_horizontal"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="@string/no_Internet_Connection"
-        android:textAppearance="?android:textAppearanceMedium" />
-</RelativeLayout>
+        android:layout_height="80dp"
+        android:hint="Search schools"/>
+
+        <ListView
+
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/search_edit_text"
+            />
+
+
+
+    </RelativeLayout>

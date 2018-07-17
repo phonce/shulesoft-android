@@ -18,21 +18,20 @@ import apps.inets.com.shulesoft.extras.School;
  * Created by admin on 20 Jun 2018.
  */
 
-public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
+public class SchoolAdapter extends ArrayAdapter<String> implements Filterable {
 
 
-    private ArrayList<School> mSchools;
+    private ArrayList<String> mSchools;
 
     private CustomFilter mFilter;
 
-    ArrayList<School> mFilterList;
+    ArrayList<String> mFilterList;
 
 
-    public SchoolAdapter(Activity context, ArrayList<School> schools){
+    public SchoolAdapter(Activity context, ArrayList<String> schools){
         super(context,0,schools);
         mSchools = schools;
         mFilterList = schools;
-
     }
 
     @Override
@@ -40,7 +39,7 @@ public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
         return mSchools.size();
     }
     @Override
-    public School getItem(int pos){
+    public String getItem(int pos){
         return mSchools.get(pos);
     }
 
@@ -60,10 +59,10 @@ public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
 
         }
 
-         TextView nameView = (TextView) listItemView.findViewById(R.id.school_name);
+         TextView nameView = listItemView.findViewById(R.id.school_name);
 
-        School currentSchool = getItem(position);
-        nameView.setText(currentSchool.getName().toString());
+        String currentSchool = getItem(position);
+        nameView.setText(currentSchool);
 
         return listItemView;
     }
@@ -87,16 +86,15 @@ public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
                 //CONSTARINT TO UPPER
                 constraint=constraint.toString().toUpperCase();
 
-                ArrayList<School> filters=new ArrayList<School>();
+                ArrayList<String> filters=new ArrayList<>();
 
                 //get specific items
                 for(int i=0;i<mFilterList.size();i++)
                 {
-                    if(mFilterList.get(i).getName().toUpperCase().contains(constraint))
+                    if(mFilterList.get(i).toUpperCase().contains(constraint))
                     {
-                         School school=new School(mFilterList.get(i).getName(), mFilterList.get(i).getImageUrl());
 
-                        filters.add(school);
+                        filters.add(mFilterList.get(i));
                     }
                 }
 
@@ -115,7 +113,7 @@ public class SchoolAdapter extends ArrayAdapter<School> implements Filterable {
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            mSchools = (ArrayList<School>) filterResults.values;
+            mSchools = (ArrayList<String>) filterResults.values;
             notifyDataSetChanged();
         }
     }
