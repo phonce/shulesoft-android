@@ -56,10 +56,9 @@ public class SchoolAdapter extends ArrayAdapter<String> implements Filterable {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.schools_list_item, parent, false);
-
         }
 
-         TextView nameView = listItemView.findViewById(R.id.school_name);
+        TextView nameView = listItemView.findViewById(R.id.school_name);
 
         String currentSchool = getItem(position);
         nameView.setText(currentSchool);
@@ -72,7 +71,6 @@ public class SchoolAdapter extends ArrayAdapter<String> implements Filterable {
         if(mFilter == null){
             mFilter = new CustomFilter();
         }
-
         return mFilter;
     }
 
@@ -93,7 +91,6 @@ public class SchoolAdapter extends ArrayAdapter<String> implements Filterable {
                 {
                     if(mFilterList.get(i).toUpperCase().contains(constraint))
                     {
-
                         filters.add(mFilterList.get(i));
                     }
                 }

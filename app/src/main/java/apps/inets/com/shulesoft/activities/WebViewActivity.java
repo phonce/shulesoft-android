@@ -2,12 +2,16 @@ package apps.inets.com.shulesoft.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.http.SslError;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -15,6 +19,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -49,6 +61,7 @@ public class WebViewActivity extends AppCompatActivity {
         }
 
     }
+
 
     /**
      * Configures the webview
@@ -102,7 +115,6 @@ public class WebViewActivity extends AppCompatActivity {
             }
 
         });
-        //webView.loadUrl(url);
 
         //Loads the URL if network is available
         TextView noInternet = findViewById(R.id.noInternet_text_view);
@@ -142,5 +154,4 @@ public class WebViewActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
 }

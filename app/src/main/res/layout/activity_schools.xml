@@ -8,16 +8,16 @@
         android:id="@+id/search_edit_text"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:hint="Search schools"/>
+        android:hint="@string/search_hint"
+        android:inputType="text"/>
 
         <ListView
-
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/search_edit_text"
+            android:divider="@color/colorPrimary"
+            android:dividerHeight="0.5dp"
             />
-
-
 
     </RelativeLayout>

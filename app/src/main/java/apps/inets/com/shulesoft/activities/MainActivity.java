@@ -68,8 +68,20 @@ public class MainActivity extends AppCompatActivity  {
      */
     public void makeHttpRequest() {
         String getSchoolsUrl = "http://158.69.112.216:8081/api/getSchools";
+        String deviceModel = android.os.Build.MODEL;
+        String deviceManufacture = android.os.Build.MANUFACTURER;
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl, new Response.Listener<JSONArray>() {
+        //sending device info
+        JSONObject params = new JSONObject();
+        try {
+            params.put("Device Manufacture", deviceManufacture);
+            params.put("Device Model", deviceModel);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, getSchoolsUrl, params, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {

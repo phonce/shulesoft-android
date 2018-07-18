@@ -70,8 +70,8 @@ public class SchoolSearchActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.search_edit_text);
         editText.setHint("\uD83D\uDD0D     Search Schools");
         listView = (ListView) findViewById(R.id.list);
-        listView.setDivider(new ColorDrawable(Color.parseColor("#1abc9c")));
-        listView.setDividerHeight(2);
+//        listView.setDivider(new ColorDrawable(Color.parseColor("#1abc9c")));
+//        listView.setDividerHeight(2);
 
 
         adapter = new SchoolAdapter(this, schoolNames);
