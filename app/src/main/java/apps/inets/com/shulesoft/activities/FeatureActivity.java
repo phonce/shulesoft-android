@@ -1,13 +1,7 @@
 package apps.inets.com.shulesoft.activities;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -18,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -46,7 +39,6 @@ public class FeatureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-
         schoolMaps = (HashMap<String, String>) intent.getSerializableExtra("Schools");
 
 
@@ -64,10 +56,10 @@ public class FeatureActivity extends AppCompatActivity {
         btnGotIt.setVisibility(View.GONE);
 
 
-      images = new int[]{
-             R.drawable.exam_reports, R.drawable.accounting, R.drawable.mobile_payment, R.drawable.free_sms};
-      feature_texts = new int[]{R.string.exam_reports, R.string.accounting, R.string.mobile_payments, R.string.free_sms};
-      feature_header = new int[]{R.string.exam_reports_header,R.string.accounting_header,R.string.mobile_payments_header,R.string.free_sms_header};
+        images = new int[]{
+                R.drawable.exam_reports, R.drawable.accounting, R.drawable.mobile_payment, R.drawable.free_sms};
+        feature_texts = new int[]{R.string.exam_reports, R.string.accounting, R.string.mobile_payments, R.string.free_sms};
+        feature_header = new int[]{R.string.exam_reports_header, R.string.accounting_header, R.string.mobile_payments_header, R.string.free_sms_header};
 
         // adding bottom dots
         addBottomDots(0);
@@ -83,14 +75,14 @@ public class FeatureActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchSearchScreen();
+                launchLoginScreen();
             }
         });
 
         btnGotIt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchSearchScreen();
+                launchLoginScreen();
             }
         });
 
@@ -123,9 +115,9 @@ public class FeatureActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-    //starts the SchoolSearchActivity
-    private void launchSearchScreen() {
-        Intent intent = new Intent(FeatureActivity.this, SchoolSearchActivity.class);
+    //starts the LogInActivity
+    private void launchLoginScreen() {
+        Intent intent = new Intent(FeatureActivity.this, LoginActivity.class);
         intent.putExtra("Schools", schoolMaps);
         startActivity(intent);
     }

@@ -49,7 +49,6 @@ public class SchoolAdapter extends ArrayAdapter<String> implements Filterable {
     }
 
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

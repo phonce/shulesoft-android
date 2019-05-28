@@ -1,4 +1,5 @@
 package apps.inets.com.shulesoft.activities;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -6,8 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,26 +19,41 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import apps.inets.com.shulesoft.R;
+import apps.inets.com.shulesoft.extras.SchoolListQuery;
 
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
+
+    SchoolListQuery schoolListQuery;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -63,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
     private final String DefaultPasswordValue = "";
     private String PasswordValue;
 
+    private ArrayList<String> mSchools;
+    private HashMap<String, String> schoolMaps;
+
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -78,11 +100,17 @@ public class LoginActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     private RequestQueue mRequestQueue;
+    private ProgressBar login_progressBar;
+    private Spinner schoolSelect_spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        schoolListQuery = new SchoolListQuery();
+        login_progressBar = findViewById(R.id.login_progress);
+        schoolSelect_spinner = findViewById(R.id.spinner_select_school);
 
         mRequestQueue = Volley.newRequestQueue(this);
 
@@ -90,8 +118,9 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         //populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        checkInternetConnection();
 
+        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -115,14 +144,16 @@ public class LoginActivity extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-
         //Gets and stores the clicked school name from searchActivity
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         Bundle intentData = intent.getExtras();
-
         if (intentData != null) {
             mSchoolName = (String) intentData.get("School");
-        }
+        } */
+
+        //Start Async Task for Background process
+        new SchoolParser(LoginActivity.this, schoolSelect_spinner).execute();
+
     }
 
     /**
@@ -141,10 +172,13 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(this,SchoolSearchActivity.class);
-        startActivity(intent);
+    public void onBackPressed() {
+
+        this.finishAffinity();
+        this.finish();
+
     }
 
     /**
@@ -161,7 +195,6 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView.setText(UnameValue);
         mPasswordView.setText(PasswordValue);
     }
-
 
     @Override
     public void onResume() {
@@ -199,9 +232,9 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
 
                     @Override
-                    public void onResponse(JSONObject reponseObject) {
+                    public void onResponse(JSONObject responseObject) {
                         try {
-                            String fromServer = reponseObject.getString("message");
+                            String fromServer = responseObject.getString("message");
                             if (fromServer.equals("success")) {
                                 Intent intent = new Intent
                                         (LoginActivity.this, HomeScreenActivity.class);
@@ -224,8 +257,6 @@ public class LoginActivity extends AppCompatActivity {
         });
         mRequestQueue.add(jsonObjectRequest);
     }
-
-
 
 
     /**
@@ -339,8 +370,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * Displays a toast when user has entered wrong details and restarts the activity
      */
@@ -365,6 +394,91 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, SchoolSearchActivity.class));
     }
 */
+
+    //Background Process To get School names into Spinner drop down List
+    public class SchoolParser extends AsyncTask<Void, Void, Boolean> {
+
+
+        Context context;
+        Spinner spinner;
+
+        public SchoolParser(Context context, Spinner spinner) {
+            this.context = context;
+            this.spinner = spinner;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            login_progressBar.setVisibility(View.VISIBLE);
+            login_progressBar.setProgress(2000, true);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return getSchool();
+        }
+
+
+        @Override
+        protected void onPostExecute(Boolean isParsed) {
+            super.onPostExecute(isParsed);
+            login_progressBar.setVisibility(View.GONE);
+            if (isParsed) {
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, mSchools);
+                spinner.setAdapter(adapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        // mEmailView.setEnabled(true);
+                        //  mPasswordView.setEnabled(true);
+                    }
+
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+            } else {
+                Toast.makeText(LoginActivity.this, "Unable To parse", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    public Boolean getSchool() {
+
+        Intent intentGetSchools = getIntent();
+        schoolMaps = (HashMap<String, String>) intentGetSchools.getSerializableExtra("Schools");
+
+        mSchools = new ArrayList<>();
+        Iterator it = schoolMaps.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            mSchools.add((String) pair.getKey());
+        }
+
+        return true;
+
+    }
+
+    public void checkInternetConnection() {
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                TextView textView = findViewById(R.id.initializing_text_view);
+                Toast.makeText(LoginActivity.this, R.string.slow_interent, Toast.LENGTH_SHORT).show();
+            }
+        }, 4000L);
+
+    }
+
 }
 
 

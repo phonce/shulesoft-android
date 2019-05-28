@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,45 +24,41 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import apps.inets.com.shulesoft.R;
 import apps.inets.com.shulesoft.extras.ConnectionService;
 
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
     private HashMap<String, String> schoolMaps;
     private ArrayList<String> mSchools;
     private RequestQueue mRequestQueue;
     private Boolean firstTime = null;
+    private ProgressBar welcome_progress_bar;
+    private int counter = 0;
 
     private static final String SCHOOLS = "Schools";
     private static final String FIRST_TIME_PREF_KEY = "firstTime";
     private static final String IS_FIRST_TIME_PREF = "first_time";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkConnectivity();
 
         mRequestQueue = Volley.newRequestQueue(this);
         mSchools = new ArrayList<>();
         schoolMaps = new HashMap<String, String>();
 
-
         makeHttpRequest();
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
-                TextView textView = findViewById(R.id.initializing_text_view);
-                textView.setText(getResources().getString(R.string.slow_interent));
-            }
-        }, 4000L);
-        
+        welcome_progress_bar = findViewById(R.id.welcome_progress_bar);
+        startProgressBar();
+
     }
 
     /**
@@ -89,7 +87,7 @@ public class MainActivity extends AppCompatActivity  {
                         JSONObject school = response.getJSONObject(i);
                         String name = school.getString("sname");
                         String urlString = school.getString("table_schema");
-                        schoolMaps.put(name,urlString);
+                        schoolMaps.put(name, urlString);
                         openFeatureActivity();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -120,10 +118,13 @@ public class MainActivity extends AppCompatActivity  {
             intent.putExtra(SCHOOLS, schoolMaps);
             startActivity(intent);
             return;
+
+        } else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra("Schools", schoolMaps);
+            startActivity(intent);
         }
-        Intent intent = new Intent(this, SchoolSearchActivity.class);
-        intent.putExtra("Schools", schoolMaps);
-        startActivity(intent);
+
     }
 
 
@@ -144,7 +145,40 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-   /* *//**
+    public void startProgressBar() {
+
+        final Timer timer = new Timer();
+        final TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                counter++;
+                welcome_progress_bar.setProgress(counter);
+                if (counter == 250) {
+                    timer.cancel();
+                }
+            }
+        };
+
+        timer.schedule(timerTask, 0, 250);
+    }
+
+
+    public void checkConnectivity() {
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                TextView textView = (TextView) findViewById(R.id.initializing_text_view);
+                //textView.setText(getResources().getString(R.string.slow_interent));
+                Toast.makeText(MainActivity.this, R.string.slow_interent, Toast.LENGTH_LONG).show();
+
+            }
+        }, 4000L);
+
+    }
+
+    /* *//**
      * Starts the connection service
      *//*
     public void startConnectionService() {

@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -26,6 +27,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="35dp"
             android:layout_weight="3">
 
             <ProgressBar
@@ -44,9 +46,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="0dp"
+                    android:text="Select school First"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:padding="4dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_select_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbarStyle="insideInset"
+                    style="@style/Widget.AppCompat.TextView.SpinnerItem"
+                    android:padding="8dp"
+                    android:layout_marginBottom="15dp"/>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
                     <AutoCompleteTextView
                         android:id="@+id/email"
@@ -64,7 +86,8 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
 
                     <EditText
                         android:id="@+id/password"
@@ -85,43 +108,37 @@
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/colorPrimaryDark"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/sign_in_btn_background"
                     android:text="@string/action_sign_in"
-                    android:textColor="#000"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold"
                     tools:text="Sign in" />
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
 
                     <TextView
                         android:id="@+id/forgot_password_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/forgot_or_lost_password"
+                        android:textColor="@android:color/holo_red_light"
                         tools:text=" Forgot or lost password?" />
 
                 </RelativeLayout>
 
 
-                <Button
-                    android:id="@+id/change_password_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/login_form"
-                    android:layout_centerHorizontal="true"
-                    android:background="@color/colorPrimary"
-                    android:text="@string/request_new_password"
-                    tools:text="Click to request new password" />
-
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_gravity="bottom">
 
                     <TextView
                         android:id="@+id/terms_privacy"
@@ -134,6 +151,7 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold"
                         tools:text="Terms and Privacy" />
+
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>

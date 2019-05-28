@@ -60,7 +60,7 @@ public class SchoolSearchActivity extends AppCompatActivity {
         schoolNames = new ArrayList<>();
         Iterator it = schoolMaps.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+            Map.Entry pair = (Map.Entry) it.next();
             schoolNames.add((String) pair.getKey());
         }
 
@@ -79,15 +79,15 @@ public class SchoolSearchActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-             @Override
-             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                 String selectedSchool = adapter.getItem(i).toString();
-                 Intent webIntent = new Intent
-                         (SchoolSearchActivity.this, WebViewActivity.class);
-                 webIntent.putExtra("School", selectedSchool);
-                 webIntent.putExtra("SchoolMaps", schoolMaps);
-                 startActivity(webIntent);
-             }
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedSchool = adapter.getItem(i).toString();
+                Intent webIntent = new Intent
+                        (SchoolSearchActivity.this, WebViewActivity.class);
+                webIntent.putExtra("School", selectedSchool);
+                webIntent.putExtra("SchoolMaps", schoolMaps);
+                startActivity(webIntent);
+            }
 
         });
 

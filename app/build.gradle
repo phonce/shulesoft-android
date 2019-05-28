@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "apps.inets.com.shulesoft"
         minSdkVersion 15
@@ -25,6 +25,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27'
     implementation 'com.mcxiaoke.volley:library:1.0.17'
     implementation 'com.android.support:appcompat-v7:27'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
     implementation 'com.android.support:cardview-v7:27.1.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'de.hdodenhof:circleimageview:2.2.0'
@@ -32,7 +33,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
-    compile 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
+    implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }

@@ -27,7 +27,7 @@ public final class SchoolListQuery {
 
     public static final String SCHOOL_LIST_URL = "http://158.69.112.216:8081/api/getSchools";
 
-    private SchoolListQuery(){
+    public SchoolListQuery(){
         //mRequestQueue = Volley.newRequestQueue(this);
     }
 
@@ -35,7 +35,6 @@ public final class SchoolListQuery {
      * Makes a network request to return the list of schools
      */
     public static void makeHttpRequest() {
-
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, SCHOOL_LIST_URL, new Response.Listener<JSONArray>() {
             @Override
